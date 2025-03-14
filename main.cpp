@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include "Graph.h"
+#include "dijkstra.cpp"
 
 int main() {
     std::cout << "Testing Graph functionality" << std::endl;

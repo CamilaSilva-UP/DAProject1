@@ -2,7 +2,7 @@
 #include "Graph.h"
 
 template <class T>
-int Disjkstra(Graph<T>* G, Vertex<T> *source, Vertex<T> *dest){
+int disjkstra(Graph<T>* G, Vertex<T> *source, Vertex<T> *dest){
     //Initialize
     for(auto v : G->getVertexSet()) {
         v->setDist(INF);
