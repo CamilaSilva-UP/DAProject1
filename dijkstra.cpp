@@ -2,7 +2,7 @@
 #include "Graph.h"
 
 template <class T>
-void Disjkstra(Graph<T>* G, Vertex<T> *source){
+int Disjkstra(Graph<T>* G, Vertex<T> *source, Vertex<T> *dest){
     //Initialize
     for(auto v : G->getVertexSet()) {
         v->setDist(INF);
@@ -12,7 +12,7 @@ void Disjkstra(Graph<T>* G, Vertex<T> *source){
 
     //Priority queue
     MutablePriorityQueue<Vertex<T>> Q;
-    for (auto v : G->getVertexSet()) {
+    for (auto& v : G->getVertexSet()) {
         Q.insert(v);
     }
 
@@ -29,4 +29,8 @@ void Disjkstra(Graph<T>* G, Vertex<T> *source){
             }
         }
     }
+
+    int dist = dest->getDist();
+    if (dist == INF) return -1;
+    return dist;
 }
