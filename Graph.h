@@ -125,6 +125,8 @@ public:
     * Auxiliary function to find a vertex with a given the content.
     */
     Vertex<T> *findVertex(const T &in) const;
+
+    Vertex<T> *findVertexByCode(std::string code) const;
     /*
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
@@ -437,6 +439,15 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
             return v;
     return nullptr;
 }
+
+template<class T>
+Vertex<T> *Graph<T>::findVertexByCode(std::string code) const {
+    for (auto v : vertexSet)
+        if (v->getCode() == code)
+            return v;
+    return nullptr;
+}
+
 
 /*
  * Finds the index of the vertex with a given content.
