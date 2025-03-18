@@ -22,8 +22,10 @@ int disjkstra(Graph<T>* G, Vertex<T> *source, Vertex<T> *dest){
         for (auto e : u->getAdj()) {
             auto v = e->getDest();
             //Relax Edge
-            if (v->getDist() > u->getDist() + e->getWeight()) {
-                v->setDist(u->getDist() + e->getWeight());
+
+            //TODO: currently, the algorithm assumes its in 'driving' mode
+            if (v->getDist() > u->getDist() + e->getDrivingWeight()) {
+                v->setDist(u->getDist() + e->getDrivingWeight());
                 v->setPath(e);
                 Q.decreaseKey(v);
             }
