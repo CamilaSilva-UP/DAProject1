@@ -139,7 +139,7 @@ public:
      * destination vertices and the edge weight (w).
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
-    bool addEdge(std::string srcCode, std::string destCode, double dr, double wa);
+    bool addEdge(const std::string &srcCode, const std::string &destCode, double dr, double wa);
     bool removeEdge(const T &source, const T &dest);
     bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
 
@@ -352,7 +352,8 @@ void Vertex<T>::deleteEdge(Edge<T> *edge) {
 /********************** Edge  ****************************/
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *orig, Vertex<T> *dest, double dr, double wa): orig(orig), dest(dest), drivingWeight(dr), walkWeight(wa) {}
+Edge<T>::Edge(Vertex<T> *orig, Vertex<T> *dest, const double dr, const double wa): orig(orig), dest(dest),
+                                                                                    drivingWeight(dr), walkWeight(wa) {}
 
 template <class T>
 Vertex<T> * Edge<T>::getDest() const {
@@ -460,7 +461,7 @@ int Graph<T>::findVertexIdx(const T &in) const {
     return -1;
 }
 /*
- *  Adds a vertex with a given content or info (in) to a graph (this).
+ *  Adds a vertex with a given content or info/id (in), code, name and parking information, to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T>
@@ -499,7 +500,7 @@ bool Graph<T>::removeVertex(const T &in) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 template <class T>
-bool Graph<T>::addEdge(std::string srcCode, std::string destCode, double dr, double wa) {
+bool Graph<T>::addEdge(const std::string &srcCode, const std::string &destCode, double dr, double wa) {
     auto v1 = findVertexByCode(srcCode);
     auto v2 = findVertexByCode(destCode);
     if (v1 == nullptr || v2 == nullptr)
