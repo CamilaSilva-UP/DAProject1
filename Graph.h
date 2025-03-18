@@ -25,6 +25,7 @@ public:
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
     T getInfo() const;
+    std::string getName() const;
     std::vector<Edge<T> *> getAdj() const;
     bool isVisited() const;
     bool isProcessing() const;
@@ -51,7 +52,8 @@ public:
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
-    T info;                // info node
+    T info;                // info node - ID
+    std::string name; //name of the location
     std::vector<Edge<T> *> adj;  // outgoing edges
 
     // auxiliary fields
@@ -212,6 +214,12 @@ template <class T>
 T Vertex<T>::getInfo() const {
     return this->info;
 }
+
+template<class T>
+std::string Vertex<T>::getName() const {
+    return this->name;
+}
+
 
 template <class T>
 int Vertex<T>::getLow() const {
