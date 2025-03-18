@@ -44,12 +44,16 @@ public:
     int getNum() const;
     void setNum(int value);
 
+    bool getParking() const;
+    void setParking(bool parking);
+
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
     void setPath(Edge<T> *path);
     Edge<T> * addEdge(Vertex<T> *dest, double dr, double wa);
     bool removeEdge(T in);
     void removeOutgoingEdges();
+
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
@@ -64,6 +68,7 @@ protected:
     unsigned int indegree; // used by topsort
     double dist = 0;
     Edge<T> *path = nullptr;
+    bool hasParking = false;
 
     std::vector<Edge<T> *> incoming; // incoming edges
 
@@ -241,6 +246,17 @@ template <class T>
 void Vertex<T>::setNum(int value) {
     this->num = value;
 }
+
+template<class T>
+bool Vertex<T>::getParking() const {
+    return this->hasParking;
+}
+
+template<class T>
+void Vertex<T>::setParking(bool parking) {
+    this->hasParking = parking;
+}
+
 
 template <class T>
 std::vector<Edge<T>*> Vertex<T>::getAdj() const {
