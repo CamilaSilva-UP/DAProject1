@@ -22,10 +22,11 @@ class Edge;
 template <class T>
 class Vertex {
 public:
-    Vertex(T in, std::string n);
+    Vertex(T in, std::string c, std::string n);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
     T getInfo() const;
+    std::string getCode() const;
     std::string getName() const;
     std::vector<Edge<T> *> getAdj() const;
     bool isVisited() const;
@@ -58,6 +59,7 @@ public:
     friend class MutablePriorityQueue<Vertex>;
 protected:
     T info;                // info node - ID
+    std::string code; //code used to create edges when reading the csv
     std::string name; //name of the location
     std::vector<Edge<T> *> adj;  // outgoing edges
 
@@ -161,7 +163,7 @@ void deleteMatrix(double **m, int n);
 /************************* Vertex  **************************/
 
 template <class T>
-Vertex<T>::Vertex(T in, std::string n): info(in), name(std::move(n)) {}
+Vertex<T>::Vertex(T in, std::string c, std::string n): info(in), code(std::move(c)), name(std::move(n)) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
@@ -220,6 +222,12 @@ template <class T>
 T Vertex<T>::getInfo() const {
     return this->info;
 }
+
+template<class T>
+std::string Vertex<T>::getCode() const {
+    return this->code;
+}
+
 
 template<class T>
 std::string Vertex<T>::getName() const {
