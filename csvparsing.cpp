@@ -4,6 +4,7 @@
 
 
 //for testing purposes, make it print the values, DON'T CREATE A GRAPH UNTIL IT IS TESTED PROPERLY
+//use files in csv examples for testing
 
 //Parses Locations.csv and creates the vertices
 void csvLocationParsing(const std::string& filepath) {
