@@ -5,6 +5,7 @@
 #define DA_TP_CLASSES_GRAPH
 
 #include <iostream>
+#include <utility>
 #include <vector>
 #include <queue>
 #include <limits>
@@ -21,7 +22,7 @@ class Edge;
 template <class T>
 class Vertex {
 public:
-    Vertex(T in);
+    Vertex(T in, std::string n);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
     T getInfo() const;
@@ -155,7 +156,7 @@ void deleteMatrix(double **m, int n);
 /************************* Vertex  **************************/
 
 template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+Vertex<T>::Vertex(T in, std::string n): info(in), name(std::move(n)) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
