@@ -22,7 +22,7 @@ class Edge;
 template <class T>
 class Vertex {
 public:
-    Vertex(T in, std::string c, std::string n);
+    Vertex(T in, std::string c, std::string n, bool p);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
     T getInfo() const;
@@ -131,7 +131,7 @@ public:
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
-    bool addVertex(const T &in);
+    bool addVertex(const T &in, std::string c, std::string n, bool p);
     bool removeVertex(const T &in);
 
     /*
@@ -165,7 +165,7 @@ void deleteMatrix(double **m, int n);
 /************************* Vertex  **************************/
 
 template <class T>
-Vertex<T>::Vertex(T in, std::string c, std::string n): info(in), code(std::move(c)), name(std::move(n)) {}
+Vertex<T>::Vertex(T in, std::string c, std::string n, bool p): info(in), code(std::move(c)), name(std::move(n), hasParking(p)) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
@@ -464,10 +464,10 @@ int Graph<T>::findVertexIdx(const T &in) const {
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T>
-bool Graph<T>::addVertex(const T &in) {
+bool Graph<T>::addVertex(const T &in, std::string c, std::string n, bool p) {
     if (findVertex(in) != nullptr)
         return false;
-    vertexSet.push_back(new Vertex<T>(in));
+    vertexSet.push_back(new Vertex<T>(in, c, n, p));
     return true;
 }
 
