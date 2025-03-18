@@ -87,6 +87,9 @@ public:
     void setSelected(bool selected);
     void setReverse(Edge<T> *reverse);
     void setFlow(double flow);
+    void setDrivingWeight(double w);
+    void setWakingWeight(double w);
+
 protected:
     Vertex<T> * dest; // destination vertex
     double drivingWeight; // edge weight, can also be used for capacity
@@ -366,6 +369,18 @@ template <class T>
 void Edge<T>::setFlow(double flow) {
     this->flow = flow;
 }
+
+template<class T>
+void Edge<T>::setDrivingWeight(double w) {
+    this->drivingWeight = w;
+}
+
+template<class T>
+void Edge<T>::setWakingWeight(double w) {
+    this->walkWeight = w;
+}
+
+
 
 /********************** Graph  ****************************/
 
