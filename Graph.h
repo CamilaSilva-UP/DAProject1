@@ -165,7 +165,7 @@ void deleteMatrix(double **m, int n);
 /************************* Vertex  **************************/
 
 template <class T>
-Vertex<T>::Vertex(T in, std::string c, std::string n, bool p): info(in), code(std::move(c)), name(std::move(n), hasParking(p)) {}
+Vertex<T>::Vertex(T in, std::string c, std::string n, bool p): info(in), code(std::move(c)), name(std::move(n)), hasParking(p) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).

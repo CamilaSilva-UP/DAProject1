@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(DAProjectClion main.cpp
         dijkstra.cpp
-        csvparsing.cpp)
+        csvparsing.cpp
+        csvparsing.h)

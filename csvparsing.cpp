@@ -1,10 +1,13 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "Graph.h"
+#include <sstream>
+#include "csvparsing.h"
 
 
 //for testing purposes, make it print the values, DON'T CREATE A GRAPH UNTIL IT IS TESTED PROPERLY
-//use files in csv examples for testing
+//use files in csv_examples for testing
 
 //Parses Locations.csv and creates the vertices
 void csvLocationParsing(const std::string& filepath) {
@@ -12,6 +15,7 @@ void csvLocationParsing(const std::string& filepath) {
     if (!input) {
         std::cerr << "Error opening file " << filepath << std::endl;
         return;
+    }
     for (std::string line; std::getline(input,line);){
       std::cout << line <<std::endl;
       //divides the line in tokens separed by ','
@@ -21,11 +25,10 @@ void csvLocationParsing(const std::string& filepath) {
       }
       std::cout << std::endl;
     }
-
 }
 
 //Parses Distances.csv and creates the edges
-void csvDistancesParsing(const std::string& filepath) {
+void csvDistancesParsing(const std::string& filepath){
     std::ifstream input(filepath);
     if (!input) {
         std::cerr << "Error opening file " << filepath << std::endl;
@@ -39,6 +42,5 @@ void csvDistancesParsing(const std::string& filepath) {
       }
       std::cout << std::endl;
     }
-
 }
 
