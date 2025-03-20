@@ -11,6 +11,15 @@ void csvLocationParsing(const std::string& filepath) {
     std::ifstream input(filepath);
     if (!input) {
         std::cerr << "Error opening file " << filepath << std::endl;
+        return;
+    for (std::string line; std::getline(input,line);){
+      std::cout << line <<std::endl;
+      //divides the line in tokens separed by ','
+      std::istringstream iss(line);
+      for(std::string token; std::getline(iss,token, ',');){
+        std::cout << token << ' | ';
+      }
+      std::cout << std::endl;
     }
 
 }
@@ -20,6 +29,16 @@ void csvDistancesParsing(const std::string& filepath) {
     std::ifstream input(filepath);
     if (!input) {
         std::cerr << "Error opening file " << filepath << std::endl;
+        return;
+    }
+    for(std::string line; std::getline(input,line);){
+      std::cout << line <<std::endl;
+      std::istringstream iss(line);
+      for(std::string token; std::getline(iss,token, ',');){
+        std::cout << token << ' | ';
+      }
+      std::cout << std::endl;
     }
 
 }
+
