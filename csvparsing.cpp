@@ -8,6 +8,8 @@
 
 #include <ranges>
 
+Graph<int> graph; //Graph is a template class so needs a type to be used
+
 
 //for testing purposes, make it print the values, DON'T CREATE A GRAPH UNTIL IT IS TESTED PROPERLY
 //use files in csv_examples for testing
@@ -16,8 +18,8 @@ std:: vector<std::string> split(const std::string& line, char delim) {
     std::string token;
     std::istringstream tokenStream(line);
     while (std::getline(tokenStream, token, delim)) {
-        token.erase(0, token.find_first_not_of(delim));
-        token.erase(token.find_last_not_of(delim) + 1);
+        token.erase(0, token.find_first_not_of("\t"));
+        token.erase(token.find_last_not_of("\t") + 1);
         tokens.push_back(token);
     }
     return tokens;
@@ -29,24 +31,27 @@ void csvLocationParsing(const std::string& filepath) {
         std::cerr << "Error opening file " << filepath << std::endl;
         return;
     }
-
-    //for (std::string line; std::getline(input,line);){
-      //std::cout << line <<std::endl;
-      //divides the line in tokens separed by ','
-      //std::istringstream iss(line);
-      //for(std::string token; std::getline(iss,token, ',');){
-        //std::cout << token << ' | ';
-      //}
-      //std::cout << std::endl;
-    //}
     std::string line;
+    std::getline(input, line);
     while (std::getline(input, line)) {
         std::vector<std::string> tokens = split(line, ',');
-        for (const auto& token : tokens) {
-            std::cout << token << '|';
+        if (tokens.size() < 2) {
+            std::cerr << "Invalid line: " << line << std::endl;
+            continue;
         }
-        std::cout << std::endl;
+        std::string location = tokens[0]; //location name
+        int id = std::stoi(tokens[1]);
+        std::string code = (tokens.size() > 2) ? tokens[2] : "";
+        bool parking = (tokens.size() > 3) && tokens[3] == "1";
+
+        std::cout << "Location: " << location << ",Id: " << id << ", Code: " << code << ", Parking: " << parking << std::endl;
+        graph.addVertex(id, location, code, parking);
     }
+
+        //for (const auto& token : tokens) {
+          //  std::cout << token << '|';
+        //}
+        //std::cout << std::endl;
 }
 
 //Parses Distances.csv and creates the edges
@@ -58,19 +63,24 @@ void csvDistancesParsing(const std::string& filepath){
     }
     std::string line;
     std::getline(input, line);
-    //for(std::string line; std::getline(input,line);){
-     // std::cout << line <<std::endl;
-      //std::istringstream iss(line);
-      //for(std::string token; std::getline(iss,token, ',');){
-      //  std::cout << token << ' | ';
-      //}
-      //std::cout << std::endl;
+
     while (std::getline(input, line)) {
         std::vector<std::string> tokens = split(line, ',');
-        for (const auto& token : tokens) {
-            std::cout << token << '|';
+        if (tokens.size() < 3) {
+            std::cerr << "Invalid line: " << line << std::endl;
+            continue;
         }
-        std::cout << std::endl;
+        int id1 = std::stoi(tokens[0]);
+        int id2 = std::stoi(tokens[1]);
+        double distance = std::stod(tokens[2]);
+
+        std::cout << "Id1: " << id1 << ", Id2: " << id2 << ", Distance: " << distance << std::endl;
+
+        std::string strId1 = std::to_string(id1);
+        std::string strId2 = std::to_string(id2);
+        graph.addEdge(strId1, strId2, distance, distance);
+
     }
 }
+
 
