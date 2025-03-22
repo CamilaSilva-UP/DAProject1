@@ -7,8 +7,6 @@
 int main() {
     std::cout << "Testing Graph functionality" << std::endl;
     std::cout << std::endl;
-    csvLocationParsing("csv_examples/Locations.csv");
-
 
     Graph<int> graph;
 
