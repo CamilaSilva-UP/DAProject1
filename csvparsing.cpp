@@ -5,37 +5,47 @@
 #include <sstream>
 #include "csvparsing.h"
 #include <vector>
-
 #include <ranges>
+#include <algorithm>
+#include <cctype>
 
 
-//for testing purposes, make it print the values, DON'T CREATE A GRAPH UNTIL IT IS TESTED PROPERLY
-//use files in csv_examples for testing
+// Função para remover espaços em branco do início e do fim de uma string.
+std::string trim(const std::string &s) {
+    const std::string whitespace = " \t\n\r";
+    size_t start = s.find_first_not_of(whitespace);
+    if (start == std::string::npos)
+        return ""; // A string só contém espaços em branco.
+    size_t end = s.find_last_not_of(whitespace);
+    return s.substr(start, end - start + 1);
+}
+
+Graph<int> graph;
 
 
-std::vector<std::string> split(std::string& s, const char& delimiter) {
+std::vector<std::string> split(std::string &s, const char &delimiter) {
     std::vector<std::string> values;
     size_t pos = 0;
     std::string value;
     while ((pos = s.find(delimiter)) != std::string::npos) {
         value = s.substr(0, pos);
-        values.push_back(value);
+        // Aplica trim ao valor extraído
+        values.push_back(trim(value));
         s.erase(0, pos + 1);
     }
-    values.push_back(s);
-
+    values.push_back(trim(s));
     return values;
 }
 
-//Parses Locations.csv and creates the vertices
-void csvLocationParsing(const std::string& filepath, Graph<int>& G) {
+
+void csvLocationParsing(const std::string &filepath) {
     std::ifstream input(filepath);
     if (!input) {
         std::cerr << "Error opening file " << filepath << std::endl;
         return;
     }
-
     std::string line;
+    // Ignora o header
     std::getline(input, line);
     while (std::getline(input, line)) {
         std::vector<std::string> tokens = split(line, ',');
@@ -43,49 +53,57 @@ void csvLocationParsing(const std::string& filepath, Graph<int>& G) {
             std::cerr << "Invalid line: " << line << std::endl;
             continue;
         }
-        std::string location = tokens[0]; //location name
+        std::string location = tokens[0];
         int id = std::stoi(tokens[1]);
         std::string code = (tokens.size() > 2) ? tokens[2] : "";
-        bool parking = (tokens.size() > 3) && tokens[3] == "1";
-
-        std::cout << "Location: " << location << ",Id: " << id << ", Code: " << code << ", Parking: " << parking << std::endl;
-        G.addVertex(id, code, location, parking);
+        bool parking = (tokens.size() > 3) && (tokens[3] == "1");
+        std::cout << "Location: " << location << ", Id: " << id
+                  << ", Code: " << code << ", Parking: " << parking << std::endl;
+        // troquei a ordem para que 'code' was passed antes de 'location'**
+        graph.addVertex(id, code, location, parking);
     }
-
-        //for (const auto& token : tokens) {
-          //  std::cout << token << '|';
-        //}
-        //std::cout << std::endl;
 }
 
-//Parses Distances.csv and creates the edges
-void csvDistancesParsing(const std::string& filepath, Graph<int>& G){
+
+void csvDistancesParsing(const std::string &filepath) {
     std::ifstream input(filepath);
     if (!input) {
         std::cerr << "Error opening file " << filepath << std::endl;
         return;
     }
-
     std::string line;
+    // Lê o cabeçalho
     std::getline(input, line);
-
     while (std::getline(input, line)) {
         std::vector<std::string> tokens = split(line, ',');
         if (tokens.size() < 3) {
             std::cerr << "Invalid line: " << line << std::endl;
             continue;
-
         }
-        std::string location1 = tokens[0];
-        std::string location2 = tokens[1];
-        double drivingDistance = std::stod(tokens[2]);
-        double walkingDistance = std::stod(tokens[3]);
 
-        std::cout << "Id1: " << location1 << ", Id2: " << location2 << ", Driving Distance: " << drivingDistance << ", Walking Distance" << std::endl;
-
-        G.addEdge(location1, location2, drivingDistance, walkingDistance);
+        std::string code1 = tokens[0];
+        std::string code2 = tokens[1];
+        double driving, walking;
+        try {
+            if (tokens[2] == "X")
+                driving = INF;
+            else
+                driving = std::stod(tokens[2]);
+            if (tokens.size() > 3) {
+                if (tokens[3] == "X")
+                    walking = INF;
+                else
+                    walking = std::stod(tokens[3]);
+            } else {
+                walking = driving;
+            }
+        } catch (const std::exception &e) {
+            std::cerr << "Error converting numbers in line: " << line << std::endl;
+            continue;
+        }
+        std::cout << "Code1: " << code1 << ", Code2: " << code2
+                  << ", Driving: " << driving << ", Walking: " << walking << std::endl;
+        graph.addEdge(code1, code2, driving, walking);
 
     }
 }
-
-

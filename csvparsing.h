@@ -5,6 +5,9 @@
 #ifndef CSVPARSING_H
 #define CSVPARSING_H
 #include <string>
+#include "Graph.h"
+
+extern Graph<int> graph;
 
 void csvLocationParsing(const std::string& filepath);
 
