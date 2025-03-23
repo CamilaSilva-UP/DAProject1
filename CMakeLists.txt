@@ -6,4 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(DAProjectClion main.cpp
         dijkstra.cpp
         csvparsing.cpp
-        csvparsing.h)
+        csvparsing.h
+        RoutePlanner.cpp
+        dijkstra_alt.cpp
+        RoutePlanner.h)

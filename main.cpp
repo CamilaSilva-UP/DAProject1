@@ -1,11 +1,16 @@
+// main.cpp
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "csvParsing.h"   // Funções para ler os ficheiros CSV e a global instance "graph"
-#include "Graph.h"        // Estrutura do grafo
-#include "dijkstra.cpp"   // Algoritmo de Dijkstra
+#include <sstream>
+#include <unordered_set>
+#include "csvParsing.h"     // Funções para ler os ficheiros CSV e carregar a instância global "graph"
+#include "Graph.h"          // Estrutura do grafo
+#include "RoutePlanner.h"   // Classe que encapsula a lógica de cálculo de rotas
+#include <limits>
 
 
+// Função para exibir o menu principal
 void showMainMenu() {
     std::cout << "\n==== Main Menu ====\n";
     std::cout << "1. Load CSV Files\n";
@@ -16,6 +21,7 @@ void showMainMenu() {
 
 }
 
+// Função para exibir o menu de seleção de modo
 void showModeMenu() {
     std::cout << "\n==== Select Mode ====\n";
     std::cout << "1. Driving\n";
@@ -27,7 +33,7 @@ void showModeMenu() {
 int main() {
     int option;
     bool dataLoaded = false;
-    int selectedMode = 1; // Default mode: Driving
+    int selectedMode = 1; // Modo padrão: Driving
 
     while (true) {
         showMainMenu();
@@ -60,6 +66,7 @@ int main() {
                 std::cout << "Please load CSV data first (Option 1).\n";
                 continue;
             }
+            RoutePlanner planner(&graph);
             if (selectedMode == 1) {
                 int sourceID, destinationID;
                 std::cout << "Driving mode selected.\n";
@@ -68,40 +75,87 @@ int main() {
                 std::cout << "Enter destination ID: ";
                 std::cin >> destinationID;
 
-                Vertex<int>* sourceVertex = graph.findVertex(sourceID);
-                Vertex<int>* destinationVertex = graph.findVertex(destinationID);
+                // Calcular a melhor rota (rota principal)
+                std::vector<int> bestRoute;
+                int bestTime = planner.calculateBestDrivingRoute(sourceID, destinationID, bestRoute);
+                if (bestTime == -1) {
+                    std::cout << "No path exists between " << sourceID << " and " << destinationID << ".\n";
+                } else {
+                    std::cout << "BestDrivingRoute time: " << bestTime << " minutes.\n";
+                    std::cout << "BestDrivingRoute: ";
+                    for (size_t i = 0; i < bestRoute.size(); i++) {
+                        std::cout << bestRoute[i];
+                        if (i < bestRoute.size() - 1)
+                            std::cout << " -> ";
+                    }
+                    std::cout << "\n";
 
-                if (sourceVertex && destinationVertex) {
-                    int totalTime = disjkstra(&graph, sourceVertex, destinationVertex);
-                    if (totalTime == -1) {
-                        std::cout << "No path exists between " << sourceID << " and " << destinationID << ".\n";
+                    // Calcular a rota alternativa
+                    std::vector<int> alternativeRoute;
+                    int altTime = planner.calculateAlternativeRoute(sourceID, destinationID, alternativeRoute);
+                    if (altTime == -1) {
+                        std::cout << "AlternativeDrivingRoute:none\n";
                     } else {
-                        std::cout << "Shortest path (Driving) time: " << totalTime << " minutes.\n";
-                        // Reconstruir a rota
-                        std::vector<int> route;
-                        Vertex<int>* current = destinationVertex;
-                        while (current != nullptr && current != sourceVertex) {
-                            route.push_back(current->getInfo());
-                            current = current->getPath() ? current->getPath()->getOrig() : nullptr;
-                        }
-                        if (current == sourceVertex)
-                            route.push_back(sourceVertex->getInfo());
-                        std::reverse(route.begin(), route.end());
-                        std::cout << "Route: ";
-                        for (size_t i = 0; i < route.size(); i++) {
-                            std::cout << route[i];
-                            if (i < route.size() - 1)
+                        std::cout << "AlternativeDrivingRoute time: " << altTime << " minutes.\n";
+                        std::cout << "AlternativeDrivingRoute: ";
+                        for (size_t i = 0; i < alternativeRoute.size(); i++) {
+                            std::cout << alternativeRoute[i];
+                            if (i < alternativeRoute.size() - 1)
                                 std::cout << " -> ";
                         }
                         std::cout << "\n";
                     }
-                } else {
-                    std::cout << "Invalid source or destination.\n";
                 }
             } else if (selectedMode == 2) {
                 std::cout << "Driving + Walking mode selected. Functionality not yet implemented.\n";
             } else if (selectedMode == 3) {
-                std::cout << "Restricted Routes mode selected. Functionality not yet implemented.\n";
+                // Restricted Routes
+                int sourceID, destinationID;
+                std::string avoidNodesInput;
+                std::cout << "Restricted Routes mode selected.\n";
+                std::cout << "Enter source ID: ";
+                std::cin >> sourceID;
+                std::cout << "Enter destination ID: ";
+                std::cin >> destinationID;
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa tudo até ao '\n'
+
+                std::cout << "Enter Nodes to Avoid (separated with a comma): ";
+                std::getline(std::cin, avoidNodesInput);
+
+                // Processar a entrada dos nós a evitar
+                std::unordered_set<int> avoidNodes;
+                std::stringstream ss(avoidNodesInput);
+                std::string token;
+                while (std::getline(ss, token, ',')) {
+                    if (token.empty()) continue; // Ignorar se estiver vazio
+                    try {
+                        avoidNodes.insert(std::stoi(token));
+                    } catch (const std::invalid_argument& e) {
+                        std::cerr << "Invalid value in AvoidNodes: " << token << "\n";
+                    }
+                }
+
+                std::cout << "Nodes to Avoid: ";
+                for (auto node : avoidNodes) {
+                    std::cout << node << " ";
+                }
+                std::cout << "\n";
+
+                // Calcular a rota restrita
+                std::vector<int> restrictedRoute;
+                int restrictedTime = planner.calculateRestrictedRoute(sourceID, destinationID, avoidNodes, restrictedRoute);
+                if (restrictedTime == -1) {
+                    std::cout << "RestrictedDrivingRoute:none\n";
+                } else {
+                    std::cout << "RestrictedDrivingRoute time: " << restrictedTime << " minutes.\n";
+                    std::cout << "RestrictedDrivingRoute: ";
+                    for (size_t i = 0; i < restrictedRoute.size(); i++) {
+                        std::cout << restrictedRoute[i];
+                        if (i < restrictedRoute.size() - 1)
+                            std::cout << " -> ";
+                    }
+                    std::cout << "\n";
+                }
             }
         } else if (option == 4) {
             std::cout << "Exiting...\n";
