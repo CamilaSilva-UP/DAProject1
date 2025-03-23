@@ -5,6 +5,9 @@
 #include <sstream>
 #include <vector>
 
+#include "csvParsing.h"
+#include "RoutePlanner.h"
+
 void runBatchMode() {
     //read the input
     std::ifstream input("Batch_Mode_Files/input.txt");
@@ -60,4 +63,36 @@ void runBatchMode() {
     //5ª linha - includeNode (não implementado)
 
 
+    //parse csvfiles
+    csvLocationParsing("csv_examples/Locations.csv");
+    csvDistancesParsing("csv_examples/Distances.csv");
+    std::cout << "CSV data loaded successfully!\n";
+
+    std::string modeToUse;
+    //modo a usar
+    if (mode == "driving") {
+        if (!avoidNodes.empty()) {
+            modeToUse = "RestrictedDriving";
+        } else modeToUse = "Driving";
+    }
+    if (mode == "driving-walking") {
+        if (!avoidNodes.empty()) {
+            modeToUse = "RestrictedDrivingWalking";
+        } else modeToUse = "DrivingWalking";
+    }
+
+    //execute
+    if (modeToUse == "Driving") {
+        RoutePlanner planner(&graph);
+        std::vector<int> bestRoute;
+        int bestTime = planner.calculateBestDrivingRoute(source, destination, bestRoute);
+        std::vector<int> alternativeRoute;
+        int altTime = planner.calculateAlternativeRoute(source, destination, alternativeRoute);
+        std::ofstream output("Batch_Mode_Files/output.txt");
+        output << "Source:" << source << std::endl;
+        output << "Destination:" << destination << std::endl;
+        output << "BestDrivingRoute:";
+
+        output.close();
+    }
 }
