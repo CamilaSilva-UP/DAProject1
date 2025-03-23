@@ -1,9 +1,10 @@
+// main.cpp
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "csvParsing.h"   // Funções para ler os ficheiros CSV e a global instance "graph"
-#include "Graph.h"        // Estrutura do grafo
-#include "dijkstra.cpp"   // Algoritmo de Dijkstra
+#include "csvParsing.h"     // Funções para ler os ficheiros CSV e carregar a instância global "graph"
+#include "Graph.h"          // Estrutura do grafo
+#include "RoutePlanner.h"   // Classe que encapsula a lógica de cálculo de rotas
 
 void showMainMenu() {
     std::cout << "\n==== Main Menu ====\n";
@@ -25,7 +26,7 @@ void showModeMenu() {
 int main() {
     int option;
     bool dataLoaded = false;
-    int selectedMode = 1; // Default mode: Driving
+    int selectedMode = 1; // Modo padrão: Driving
 
     while (true) {
         showMainMenu();
@@ -66,35 +67,38 @@ int main() {
                 std::cout << "Enter destination ID: ";
                 std::cin >> destinationID;
 
-                Vertex<int>* sourceVertex = graph.findVertex(sourceID);
-                Vertex<int>* destinationVertex = graph.findVertex(destinationID);
+                RoutePlanner planner(&graph);
 
-                if (sourceVertex && destinationVertex) {
-                    int totalTime = disjkstra(&graph, sourceVertex, destinationVertex);
-                    if (totalTime == -1) {
-                        std::cout << "No path exists between " << sourceID << " and " << destinationID << ".\n";
+                // Calcular a rota principal
+                std::vector<int> bestRoute;
+                int bestTime = planner.calculateBestDrivingRoute(sourceID, destinationID, bestRoute);
+                if (bestTime == -1) {
+                    std::cout << "No path exists between " << sourceID << " and " << destinationID << ".\n";
+                } else {
+                    std::cout << "BestDrivingRoute time: " << bestTime << " minutes.\n";
+                    std::cout << "BestDrivingRoute: ";
+                    for (size_t i = 0; i < bestRoute.size(); i++) {
+                        std::cout << bestRoute[i];
+                        if (i < bestRoute.size() - 1)
+                            std::cout << " -> ";
+                    }
+                    std::cout << "\n";
+
+                    // Calcular a rota alternativa
+                    std::vector<int> alternativeRoute;
+                    int altTime = planner.calculateAlternativeRoute(sourceID, destinationID, alternativeRoute);
+                    if (altTime == -1) {
+                        std::cout << "AlternativeDrivingRoute:none\n";
                     } else {
-                        std::cout << "Shortest path (Driving) time: " << totalTime << " minutes.\n";
-                        // Reconstruir a rota
-                        std::vector<int> route;
-                        Vertex<int>* current = destinationVertex;
-                        while (current != nullptr && current != sourceVertex) {
-                            route.push_back(current->getInfo());
-                            current = current->getPath() ? current->getPath()->getOrig() : nullptr;
-                        }
-                        if (current == sourceVertex)
-                            route.push_back(sourceVertex->getInfo());
-                        std::reverse(route.begin(), route.end());
-                        std::cout << "Route: ";
-                        for (size_t i = 0; i < route.size(); i++) {
-                            std::cout << route[i];
-                            if (i < route.size() - 1)
+                        std::cout << "AlternativeDrivingRoute time: " << altTime << " minutes.\n";
+                        std::cout << "AlternativeDrivingRoute: ";
+                        for (size_t i = 0; i < alternativeRoute.size(); i++) {
+                            std::cout << alternativeRoute[i];
+                            if (i < alternativeRoute.size() - 1)
                                 std::cout << " -> ";
                         }
                         std::cout << "\n";
                     }
-                } else {
-                    std::cout << "Invalid source or destination.\n";
                 }
             } else if (selectedMode == 2) {
                 std::cout << "Driving + Walking mode selected. Functionality not yet implemented.\n";
