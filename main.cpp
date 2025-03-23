@@ -8,6 +8,7 @@
 #include "Graph.h"          // Estrutura do grafo
 #include "RoutePlanner.h"   // Classe que encapsula a lógica de cálculo de rotas
 #include <limits>
+#include "batchMode.h" // Função para correr o programa em BatchMode
 
 
 // Função para exibir o menu principal
@@ -198,7 +199,7 @@ int main() {
             }
         }
     } else if (batch == 2) {
-        std::cout << "Batch Mode not yet implemented";
+        runBatchMode();
     }
     return 0;
 }

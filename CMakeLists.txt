@@ -10,4 +10,5 @@ add_executable(DAProjectClion main.cpp
         RoutePlanner.cpp
         dijkstra_alt.cpp
         RoutePlanner.h
-        batchMode.cpp)
+        batchMode.cpp
+        batchMode.h)
