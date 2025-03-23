@@ -9,4 +9,5 @@ add_executable(DAProjectClion main.cpp
         csvparsing.h
         RoutePlanner.cpp
         dijkstra_alt.cpp
-        RoutePlanner.h)
+        RoutePlanner.h
+        batchMode.cpp)
