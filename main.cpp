@@ -39,6 +39,14 @@ int main() {
         showMainMenu();
         std::cin >> option;
 
+        while (option < 1 || option > 4 || !std::cin >> option) {
+            std::cout << "Invalid Input\n";
+            std::cin.clear();
+            std::cin.ignore(1000, '\n');
+            showMainMenu();
+            std::cin >> option;
+        }
+
         if (option == 1) {
             csvLocationParsing("csv_examples/Locations.csv");
             csvDistancesParsing("csv_examples/Distances.csv");
