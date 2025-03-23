@@ -10,6 +10,7 @@ public:
     RoutePlanner(Graph<int>* g);
     int calculateBestDrivingRoute(int sourceID, int destinationID, std::vector<int>& route);
     int calculateAlternativeRoute(int sourceID, int destinationID, std::vector<int>& route);
+    int calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, std::vector<int>& route);
 
 private:
     Graph<int>* graph;

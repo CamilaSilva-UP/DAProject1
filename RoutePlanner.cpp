@@ -72,3 +72,18 @@ int RoutePlanner::calculateAlternativeRoute(int sourceID, int destinationID, std
     reconstructRoute(sourceVertex, destinationVertex, route);
     return alternativeTime;
 }
+
+int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, std::vector<int>& route) {
+    Vertex<int>* sourceVertex = graph->findVertex(sourceID);
+    Vertex<int>* destinationVertex = graph->findVertex(destinationID);
+    if (!sourceVertex || !destinationVertex) {
+        std::cerr << "Source or destination vertex not found.\n";
+        return -1;
+    }
+    // Usamos o nosso algoritmo de Dijkstra alternativo, mas com o avoidNodes
+    int restrictedTime = alternative_dijkstra(graph, sourceVertex, destinationVertex, avoidNodes);
+    if (restrictedTime == -1)
+        return -1;
+    reconstructRoute(sourceVertex, destinationVertex, route);
+    return restrictedTime;
+}
