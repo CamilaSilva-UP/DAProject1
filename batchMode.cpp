@@ -92,7 +92,18 @@ void runBatchMode() {
         output << "Source:" << source << std::endl;
         output << "Destination:" << destination << std::endl;
         output << "BestDrivingRoute:";
-
+        for (int i = 0; i < bestRoute.size(); i++) {
+            if (i == 0) output << bestRoute[i];
+            else output << "," << bestRoute[i];
+        }
+        output << '(' << bestTime << ')' << std::endl;
+        output << "AlternativeDrivingRoute:";
+        for (int i = 0; i < alternativeRoute.size(); i++) {
+            if (i == 0) output << alternativeRoute[i];
+            else output << "," << alternativeRoute[i];
+        }
+        output << '(' << altTime << ')' << std::endl;
         output.close();
+        std::cout << "Batch mode ran successfully, please check Batch_Mode_Files/output.txt for your output";
     }
 }
