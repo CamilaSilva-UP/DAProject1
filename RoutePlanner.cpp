@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <unordered_set>
+
 //métodos para reconstruir e calcular rotas utilizando os algoritmos de Dijkstra.
 RoutePlanner::RoutePlanner(Graph<int>* g) : graph(g) {}
 
@@ -87,3 +88,59 @@ int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, cons
     reconstructRoute(sourceVertex, destinationVertex, route);
     return restrictedTime;
 }
+
+int RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationID,
+    std::unordered_set<int>& avoidNodes,
+    const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments,
+    std::vector<int>& drivingRoute,
+    std::vector<int>& walkingRoute,
+    int& parkingNode) {
+    Vertex<int>* sourceVertex = graph->findVertex(sourceID);
+    Vertex<int>* destinationVertex = graph->findVertex(destinationID);
+
+    if (!sourceVertex || !destinationVertex) {
+        std::cerr << "Source or destination vertex not found.\n";
+        return -1;
+    }
+
+    // Finds the best parking until the dest
+    parkingNode = -1;
+    int minWalkingDistance = INT_MAX;
+
+    for (auto vertex : graph->getVertexSet()) {
+        int nodeId = vertex->getInfo();
+        if (avoidNodes.find(nodeId) != avoidNodes.end()) continue;
+        if (vertex-> getParking ()) {
+            // Calculates the walking time until the parking
+            int walkingTime = disjkstra(graph, vertex, destinationVertex);
+            if (walkingTime != -1 && walkingTime < minWalkingDistance) {
+                minWalkingDistance = walkingTime;
+                parkingNode = nodeId;
+            }
+        }
+    }
+
+    if (parkingNode == -1) {
+        std::cerr << "No suitable parking node found.\n";
+        return -1;
+    }
+
+    // Calculates the best driving route until the parking
+    int drivingTime = disjkstra(graph, sourceVertex, graph->findVertex(parkingNode));
+    if (drivingTime == -1) {
+        std::cerr << "No driving route found.\n";
+        return -1;
+    }
+    reconstructRoute(sourceVertex, graph->findVertex(parkingNode), drivingRoute);
+
+    // Calculates the best route of park and walk until the dest
+    int walkingTime = disjkstra(graph, graph->findVertex(parkingNode), destinationVertex);
+    if (walkingTime == -1) {
+        std::cerr << "No walking route found.\n";
+        return -1;
+    }
+    reconstructRoute(graph->findVertex(parkingNode), destinationVertex, walkingRoute);
+
+    return drivingTime + walkingTime;
+}
+

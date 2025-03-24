@@ -91,8 +91,89 @@ int main() {
                 std::cout << "Selected mode: ";
                 if (selectedMode == 1)
                     std::cout << "Driving\n";
-                else if (selectedMode == 2)
-                    std::cout << "Driving + Walking\n";
+                else if (selectedMode == 2) {
+    std::cout << "Driving + Walking mode selected.\n";
+
+    int sourceID, destinationID;
+    std::unordered_set<int> avoidNodes;
+    std::unordered_set<std::pair<int, int>, pair_hash<int, int>> avoidSegments;
+    // Enter the source ID and the destination ID
+    std::cout << "Enter source <ID>: ";
+    std::cin >> sourceID;
+    std::cout << "Enter destination <ID>: ";
+    std::cin >> destinationID;
+
+    // Nodes to avoid
+    std::string avoidNodesInput;
+    std::cout << "Enter AvoidNodes (separated by commas): ";
+    std::cin.ignore();
+    std::getline(std::cin, avoidNodesInput);
+
+    std::stringstream ss(avoidNodesInput);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        if (token.empty()) continue;
+        try {
+            avoidNodes.insert(std::stoi(token));
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Invalid value in AvoidNodes: " << token << "\n";
+        }
+    }
+
+    // Edges to avoid
+    std::string avoidSegmentsInput;
+    std::cout << "Enter AvoidSegments (format: 1-2, separated by commas): ";
+    std::getline(std::cin, avoidSegmentsInput);
+
+    std::stringstream ssSegments(avoidSegmentsInput);
+    while (std::getline(ssSegments, token, ',')) {
+        if (token.empty()) continue;
+        try {
+            size_t pos = token.find('-');
+            if (pos != std::string::npos) {
+                int node1 = std::stoi(token.substr(0, pos));
+                int node2 = std::stoi(token.substr(pos + 1));
+                avoidSegments.insert({node1, node2});
+            }
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Invalid segment in AvoidSegments: " << token << "\n";
+        }
+    }
+
+    // Define the variables for the driving and walking routes
+    std::vector<int> drivingRoute;
+    std::vector<int> walkingRoute;
+    int parkingNode = -1;  // Este valor será alterado pela função se necessário
+
+    // Calculates the driving + walking routes
+
+    RoutePlanner planner(&graph);
+
+    int totalTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
+        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode);
+
+    if (totalTime == -1) {
+        std::cout << "No valid combined route found.\n";
+    } else {
+        std::cout << "Driving + Walking combined route time: " << totalTime << " minutes.\n";
+        std::cout << "Driving route: ";
+        for (size_t i = 0; i < drivingRoute.size(); i++) {
+            std::cout << drivingRoute[i];
+            if (i < drivingRoute.size() - 1)
+                std::cout << " -> ";
+        }
+        std::cout << "\n";
+
+        std::cout << "Walking route: ";
+        for (size_t i = 0; i < walkingRoute.size(); i++) {
+            std::cout << walkingRoute[i];
+            if (i < walkingRoute.size() - 1)
+                std::cout << " -> ";
+        }
+        std::cout << "\n";
+    }
+}
+
                 else if (selectedMode == 3)
                     std::cout << "Restricted Routes\n";
             } else if (option == 3) {
@@ -109,7 +190,7 @@ int main() {
                     std::cout << "Enter destination ID: ";
                     std::cin >> destinationID;
 
-                    // Calcular a melhor rota (rota principal)
+                    //Principal route
                     std::vector<int> bestRoute;
                     int bestTime = planner.calculateBestDrivingRoute(sourceID, destinationID, bestRoute);
                     if (bestTime == -1) {
@@ -124,7 +205,7 @@ int main() {
                         }
                         std::cout << "\n";
 
-                        // Calcular a rota alternativa
+                        //Alternative route
                         std::vector<int> alternativeRoute;
                         int altTime = planner.calculateAlternativeRoute(sourceID, destinationID, alternativeRoute);
                         if (altTime == -1) {
@@ -156,12 +237,12 @@ int main() {
                     std::cout << "Enter Nodes to Avoid (separated with a comma): ";
                     std::getline(std::cin, avoidNodesInput);
 
-                    // Processar a entrada dos nós a evitar
+                    //Nodes to avoid
                     std::unordered_set<int> avoidNodes;
                     std::stringstream ss(avoidNodesInput);
                     std::string token;
                     while (std::getline(ss, token, ',')) {
-                        if (token.empty()) continue; // Ignorar se estiver vazio
+                        if (token.empty()) continue;
                         try {
                             avoidNodes.insert(std::stoi(token));
                         } catch (const std::invalid_argument& e) {
