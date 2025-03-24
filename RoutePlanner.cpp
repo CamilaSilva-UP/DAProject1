@@ -74,6 +74,7 @@ int RoutePlanner::calculateAlternativeRoute(int sourceID, int destinationID, std
     return alternativeTime;
 }
 
+// Calcula a rota excluindo nós específicos do grafo
 int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, std::vector<int>& route) {
     Vertex<int>* sourceVertex = graph->findVertex(sourceID);
     Vertex<int>* destinationVertex = graph->findVertex(destinationID);
