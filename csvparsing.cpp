@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cctype>
 
+
 // Função para remover espaços em branco do início e do fim de uma string.
 std::string trim(const std::string &s) {
     const std::string whitespace = " \t\n\r";
@@ -20,6 +21,7 @@ std::string trim(const std::string &s) {
 }
 
 Graph<int> graph;
+
 
 std::vector<std::string> split(std::string &s, const char &delimiter) {
     std::vector<std::string> values;
@@ -34,6 +36,7 @@ std::vector<std::string> split(std::string &s, const char &delimiter) {
     values.push_back(trim(s));
     return values;
 }
+
 
 void csvLocationParsing(const std::string &filepath) {
     std::ifstream input(filepath);
@@ -61,6 +64,7 @@ void csvLocationParsing(const std::string &filepath) {
     }
 }
 
+
 void csvDistancesParsing(const std::string &filepath) {
     std::ifstream input(filepath);
     if (!input) {
@@ -76,6 +80,7 @@ void csvDistancesParsing(const std::string &filepath) {
             std::cerr << "Invalid line: " << line << std::endl;
             continue;
         }
+
         std::string code1 = tokens[0];
         std::string code2 = tokens[1];
         double driving, walking;
@@ -99,5 +104,6 @@ void csvDistancesParsing(const std::string &filepath) {
         std::cout << "Code1: " << code1 << ", Code2: " << code2
                   << ", Driving: " << driving << ", Walking: " << walking << std::endl;
         graph.addEdge(code1, code2, driving, walking);
+
     }
 }
