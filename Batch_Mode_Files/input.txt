@@ -12,3 +12,10 @@ Destination:3
 AvoidNodes:
 AvoidSegments:
 IncludeNode:
+#US3
+Mode:driving
+Source:1
+Destination:3
+AvoidNodes:
+AvoidSegments:
+IncludeNode:

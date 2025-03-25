@@ -12,7 +12,7 @@ void runBatchMode() {
     //read the input
     std::ifstream input("Batch_Mode_Files/input.txt");
     if (!input) {
-        std::cerr << "Error opening file " << std::endl;
+        std::cerr << "Error opening input file " << std::endl;
     }
 
     std::ofstream output("Batch_Mode_Files/output.txt");
