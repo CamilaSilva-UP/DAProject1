@@ -106,4 +106,13 @@ void runBatchMode() {
         output.close();
         std::cout << "Batch mode ran successfully, please check Batch_Mode_Files/output.txt for your output";
     }
+    else if (modeToUse == "RestrictedDriving"){
+
+    }
+    else if (modeToUse == "DrivingWalking") {
+
+    }
+    else if (modeToUse == "RestrictedDrivingWalking") {
+
+    }
 }
