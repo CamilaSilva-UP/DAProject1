@@ -196,9 +196,9 @@ int main() {
 
                     // Calculates the driving + walking routes
 
-                    int totalTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
+                    std::pair<int,int> pairTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
                         avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode);
-
+                    int totalTime = pairTime.first + pairTime.second;
                     if (totalTime == -1) {
                         std::cout << "No valid combined route found.\n";
                     } else {

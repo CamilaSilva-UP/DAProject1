@@ -90,7 +90,7 @@ int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, cons
     return restrictedTime;
 }
 
-int RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationID,
+std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationID,
     std::unordered_set<int>& avoidNodes,
     const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments,
     std::vector<int>& drivingRoute,
@@ -101,7 +101,7 @@ int RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationI
 
     if (!sourceVertex || !destinationVertex) {
         std::cerr << "Source or destination vertex not found.\n";
-        return -1;
+        return std::make_pair(-1, 0);
     }
 
     // Finds the best parking until the dest
@@ -123,14 +123,14 @@ int RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationI
 
     if (parkingNode == -1) {
         std::cerr << "No suitable parking node found.\n";
-        return -1;
+        return std::make_pair(-1, 0);;
     }
 
     // Calculates the best driving route until the parking
     int drivingTime = disjkstra(graph, sourceVertex, graph->findVertex(parkingNode));
     if (drivingTime == -1) {
         std::cerr << "No driving route found.\n";
-        return -1;
+        return std::make_pair(-1, 0);;
     }
     reconstructRoute(sourceVertex, graph->findVertex(parkingNode), drivingRoute);
 
@@ -138,10 +138,10 @@ int RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationI
     int walkingTime = disjkstra(graph, graph->findVertex(parkingNode), destinationVertex);
     if (walkingTime == -1) {
         std::cerr << "No walking route found.\n";
-        return -1;
+        return std::make_pair(-1, 0);
     }
     reconstructRoute(graph->findVertex(parkingNode), destinationVertex, walkingRoute);
 
-    return drivingTime + walkingTime;
+    return std::make_pair(drivingTime, walkingTime);
 }
 
