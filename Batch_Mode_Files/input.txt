@@ -1,6 +1,14 @@
+#US1
 Mode:driving
 Source:1
 Destination:2
+AvoidNodes:
+AvoidSegments:
+IncludeNode:
+#US2
+Mode:driving
+Source:1
+Destination:3
 AvoidNodes:
 AvoidSegments:
 IncludeNode:
