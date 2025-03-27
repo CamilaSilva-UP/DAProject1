@@ -113,7 +113,7 @@ std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, i
         if (avoidNodes.find(nodeId) != avoidNodes.end()) continue;
         if (vertex-> getParking ()) {
             // Calculates the walking time until the parking
-            int walkingTime = dijkstra(graph, vertex, destinationVertex);
+            int walkingTime = dijkstra_walking(graph, vertex, destinationVertex);
             if (walkingTime != -1 && walkingTime < minWalkingDistance) {
                 minWalkingDistance = walkingTime;
                 parkingNode = nodeId;
@@ -135,7 +135,7 @@ std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, i
     reconstructRoute(sourceVertex, graph->findVertex(parkingNode), drivingRoute);
 
     // Calculates the best route of park and walk until the dest
-    int walkingTime = dijkstra(graph, graph->findVertex(parkingNode), destinationVertex);
+    int walkingTime = dijkstra_walking(graph, graph->findVertex(parkingNode), destinationVertex);
     if (walkingTime == -1) {
         std::cerr << "No walking route found.\n";
         return std::make_pair(-1, 0);
