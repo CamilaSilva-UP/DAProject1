@@ -9,11 +9,21 @@
 
 ///
 ///@file dijkstra_alt.h
-///@brief Header file containing the declaration of an altered version Dijkstra's algorithm that ignores certain nodes
+///@brief Header file containing the declaration of an altered version Dijkstra's algorithm that ignores specified nodes
 ///
 
 
-
+///
+/// @tparam T the variable type used by the Graph
+/// @param G the Graph that the algorithm will be applied to
+/// @param source the source node of the route
+/// @param dest the destination of the route
+/// @param forbidden the set of nodes that will be ignored by the algorithm
+/// @return the distance of the shortest path from source to dest, when driving
+///
+/// @brief Altered implementation of Dijkstra's algorithm that ignores specified nodes
+///
+/// @details Calculates the shortest driving path from a source node to a destination node, without passing by any of the nodes in the forbidden set.
 template <class T>
 int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden);
 

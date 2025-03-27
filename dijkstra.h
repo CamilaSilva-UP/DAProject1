@@ -20,7 +20,7 @@
 ///
 ///@brief Implementation of Dijkstra's algorithm
 ///
-///@details Calculates the shortest driving path from a source node to a destination node, and returns the distance of that path
+///@details Calculates the shortest driving path from a source node to a destination node
 ///
 template <class T>
 int dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest);
