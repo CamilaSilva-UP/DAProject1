@@ -8,6 +8,7 @@
 ///
 ///@file batchMode.h
 ///@brief Header file containing the declaration of the function required for batch mode
+///
 
 ///
 ///@brief Runs batch mode
