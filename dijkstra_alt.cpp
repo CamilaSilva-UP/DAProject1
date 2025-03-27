@@ -2,6 +2,7 @@
 #include "Graph.h"
 #include "MutablePriorityQueue.h"
 #include <unordered_set>
+#include "dijkstra_alt.h"
 
 
 // Implementação do algoritmo de Dijkstra alternativo que evita nós proibidos para calcular a rota secundária.

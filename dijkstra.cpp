@@ -2,7 +2,7 @@
 #include "Graph.h"
 #include "dijkstra.h"
 
-//Implementação do algoritmo padrão de Dijkstra para calcular a rota mais rápida (driving) no grafo.
+
 template <class T>
 int dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest) {
     for (auto v : G->getVertexSet()) {
