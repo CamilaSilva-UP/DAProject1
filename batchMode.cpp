@@ -159,7 +159,7 @@ void runBatchMode() {
             int parkingNode = -1;
             RoutePlanner planner(&graph);
             std::pair<int,int> pairTime = planner.calculateDrivingAndWalkingRoute(source, destination,
-                        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode);
+                        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, 1);
 
             output << "Source:" << source << std::endl;
             output << "Destination:" << destination << std::endl;

@@ -59,11 +59,13 @@ public:
     /// @param drivingRoute A reference to a vector where the driving section of the route will be stored
     /// @param walkingRoute A reference to a vector where the walking section of the route will be stored
     /// @param parkingNode A reference to a variable where the ID of the parking node will be stored
+    /// @param maxWalkTime
     /// @return A pair containing the distance of the driving route (first) and the distance of the walking route (second)
     ///
     /// @brief Planner for the best driving and walking route
     /// @details Calculates and saves the best route combining a driving segment and a waling segment, without passing by any of the nodes with an ID in the avoidNodes set or any of the edges in the avoidSegments set
-    std::pair<int,int> calculateDrivingAndWalkingRoute(int sourceID, int destinationID, std::unordered_set<int>& avoidNodes, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments, std::vector<int>& drivingRoute, std::vector<int>& walkingRoute, int& parkingNode);
+    std::pair<int,int> calculateDrivingAndWalkingRoute(int sourceID, int destinationID, std::unordered_set<int>& avoidNodes, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments,
+        std::vector<int>& drivingRoute, std::vector<int>& walkingRoute, int& parkingNode, int maxWalkTime);
 
 private:
     Graph<int>* graph;

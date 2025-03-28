@@ -143,7 +143,7 @@ int main() {
                     }
                 } else if (selectedMode == 2) {
                     std::cout << "Driving + Walking mode selected.\n";
-                    int sourceID, destinationID;
+                    int sourceID, destinationID, maxWalkTime;
                     std::unordered_set<int> avoidNodes;
                     std::unordered_set<std::pair<int, int>, pair_hash<int, int>> avoidSegments;
                     // Enter the source ID and the destination ID
@@ -151,6 +151,8 @@ int main() {
                     std::cin >> sourceID;
                     std::cout << "Enter destination <ID>: ";
                     std::cin >> destinationID;
+                    std::cout << "Enter maximum walking time: ";
+                    std::cin >> maxWalkTime;
 
                     // Nodes to avoid
                     std::string avoidNodesInput;
@@ -197,12 +199,54 @@ int main() {
                     // Calculates the driving + walking routes
 
                     std::pair<int,int> pairTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
-                        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode);
+                        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, maxWalkTime);
+                    //no route found with less than the desired maximum walk time
+                    if (pairTime.first == -2) {
+                        std::cout << "No route find with desired maximum walking time. Please consider the following alternatives:\n";
+                        std::cout << "Route 1: \n";
+                        pairTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
+                        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, std::numeric_limits<int>::max());
+                        int totalTime = pairTime.first + pairTime.second;
+                        if (totalTime == -1) {
+                            std::cout << "No valid combined route found.\n";
+                        } else {
+                            std::cout << "Driving route time: " << pairTime.first << " minutes.\n";
+                            std::cout << "Driving route: ";
+                            for (size_t i = 0; i < drivingRoute.size(); i++) {
+                                std::cout << drivingRoute[i];
+                                if (i < drivingRoute.size() - 1)
+                                    std::cout << " -> ";
+                            }
+                            std::cout << "\n";
+
+                            std::cout << "Parking: " << parkingNode << '\n';
+                            std::cout << "Walking route time: " << pairTime.second << " minutes.\n";
+                            std::cout << "Walking route: ";
+                            for (size_t i = 0; i < walkingRoute.size(); i++) {
+                                std::cout << walkingRoute[i];
+                                if (i < walkingRoute.size() - 1)
+                                    std::cout << " -> ";
+                            }
+                            std::cout << "\n";
+                            std::cout << "Combined time: " << totalTime << " minutes.\n";
+                            std::cout << "Route 2: \n";
+                            //second route, without repeating any of the intermediate nodes
+                            for (auto i = drivingRoute.begin() + 1; i != drivingRoute.end()-1; i++) {
+                                avoidNodes.insert(*i);
+                            }
+                            for (auto i = walkingRoute.begin() + 1; i != walkingRoute.end()-1; i++) {
+                                avoidNodes.insert(*i);
+                            }
+                            pairTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
+                            avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, std::numeric_limits<int>::max());
+                        }
+                    }
+
                     int totalTime = pairTime.first + pairTime.second;
                     if (totalTime == -1) {
                         std::cout << "No valid combined route found.\n";
                     } else {
-                        std::cout << "Driving + Walking combined route time: " << totalTime << " minutes.\n";
+                        std::cout << "Driving route time: " << pairTime.first << " minutes.\n";
                         std::cout << "Driving route: ";
                         for (size_t i = 0; i < drivingRoute.size(); i++) {
                             std::cout << drivingRoute[i];
@@ -212,7 +256,7 @@ int main() {
                         std::cout << "\n";
 
                         std::cout << "Parking: " << parkingNode << '\n';
-
+                        std::cout << "Walking route time: " << pairTime.second << " minutes.\n";
                         std::cout << "Walking route: ";
                         for (size_t i = 0; i < walkingRoute.size(); i++) {
                             std::cout << walkingRoute[i];
@@ -220,6 +264,7 @@ int main() {
                                 std::cout << " -> ";
                         }
                         std::cout << "\n";
+                        std::cout << "Combined time: " << totalTime << " minutes.\n";
                     }
                 } else if (selectedMode == 3) {
                     // Restricted Routes

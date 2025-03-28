@@ -107,12 +107,8 @@ int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, cons
     return restrictedTime;
 }
 
-std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationID,
-    std::unordered_set<int>& avoidNodes,
-    const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments,
-    std::vector<int>& drivingRoute,
-    std::vector<int>& walkingRoute,
-    int& parkingNode) {
+std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, int destinationID, std::unordered_set<int>& avoidNodes, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments,
+        std::vector<int>& drivingRoute, std::vector<int>& walkingRoute, int& parkingNode, int maxWalkTime){
     Vertex<int>* sourceVertex = graph->findVertex(sourceID);
     Vertex<int>* destinationVertex = graph->findVertex(destinationID);
 
@@ -156,6 +152,9 @@ std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, i
     if (walkingTime == -1) {
         std::cerr << "No walking route found.\n";
         return std::make_pair(-1, 0);
+    }
+    if (walkingTime > maxWalkTime) {
+        return std::make_pair(-2, 0);
     }
     reconstructRoute(graph->findVertex(parkingNode), destinationVertex, walkingRoute);
 
