@@ -95,7 +95,7 @@ int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, cons
         int time2 = alternative_dijkstra(graph, includeVertex, destinationVertex, avoidNodes, avoidSegments);
         if (time2 == -1) return -1;
         reconstructRoute(includeVertex, destinationVertex, temp);
-        route.insert(route.end(), temp.begin(), temp.end());
+        route.insert(route.end(), temp.begin() + 1, temp.end());
         return time1 + time2;
     }
 
@@ -129,8 +129,8 @@ std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, i
         int nodeId = vertex->getInfo();
         if (avoidNodes.find(nodeId) != avoidNodes.end()) continue;
         if (vertex-> getParking ()) {
-            // Calculates the walking time until the parking
-            int walkingTime = dijkstra_walking(graph, vertex, destinationVertex);
+            // Calculates the walking time from the parking to the destination
+            int walkingTime = walking_alt_dijkstra(graph, vertex, destinationVertex, avoidNodes, avoidSegments);
             if (walkingTime != -1 && walkingTime < minWalkingDistance) {
                 minWalkingDistance = walkingTime;
                 parkingNode = nodeId;
@@ -144,7 +144,7 @@ std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, i
     }
 
     // Calculates the best driving route until the parking
-    int drivingTime = dijkstra(graph, sourceVertex, graph->findVertex(parkingNode));
+    int drivingTime = alternative_dijkstra(graph, sourceVertex, graph->findVertex(parkingNode), avoidNodes, avoidSegments);
     if (drivingTime == -1) {
         std::cerr << "No driving route found.\n";
         return std::make_pair(-1, 0);;
@@ -152,7 +152,7 @@ std::pair<int,int> RoutePlanner::calculateDrivingAndWalkingRoute(int sourceID, i
     reconstructRoute(sourceVertex, graph->findVertex(parkingNode), drivingRoute);
 
     // Calculates the best route of park and walk until the dest
-    int walkingTime = dijkstra_walking(graph, graph->findVertex(parkingNode), destinationVertex);
+    int walkingTime = walking_alt_dijkstra(graph, graph->findVertex(parkingNode), destinationVertex, avoidNodes, avoidSegments);
     if (walkingTime == -1) {
         std::cerr << "No walking route found.\n";
         return std::make_pair(-1, 0);

@@ -21,7 +21,7 @@ caso contrário, imprimir “AlternativeDrivingRoute:none” (e same para a rota
  */
 
 
-// Dijkstra, mas que ignora os vértices do meio
+// Dijkstra, capaz de ignorar vertices e segmentos
 template <class T>
 int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments) {
     for (auto v : G->getVertexSet()) {
@@ -47,6 +47,42 @@ int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const 
                 continue;
             if (v->getDist() > u->getDist() + e->getDrivingWeight()) {
                 v->setDist(u->getDist() + e->getDrivingWeight());
+                v->setPath(e);
+                Q.decreaseKey(v);
+            }
+        }
+    }
+    double d = dest->getDist();
+    if (d == INF)
+        return -1;
+    return static_cast<int>(d);
+}
+
+template <class T>
+int walking_alt_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments){
+    for (auto v : G->getVertexSet()) {
+        v->setDist(INF);
+        v->setPath(nullptr);
+    }
+    source->setDist(0);
+
+    MutablePriorityQueue<Vertex<T>> Q;
+    for (auto& v : G->getVertexSet()) {
+        Q.insert(v);
+    }
+
+    while (!Q.empty()) {
+        auto u = Q.extractMin();
+        for (auto e : u->getAdj()) {
+            auto v = e->getDest();
+            // Se v for um nó proibido (mas se for o destino, permitimos)
+            if (v != dest && forbidden.find(v->getInfo()) != forbidden.end())
+                continue;
+            // Se {u,v} for uma edge proibída, ignorar
+            if (avoidSegments.find({u->getInfo(), v->getInfo()}) != avoidSegments.end())
+                continue;
+            if (v->getDist() > u->getDist() + e->getWalkingWeight()) {
+                v->setDist(u->getDist() + e->getWalkingWeight());
                 v->setPath(e);
                 Q.decreaseKey(v);
             }

@@ -211,6 +211,8 @@ int main() {
                         }
                         std::cout << "\n";
 
+                        std::cout << "Parking: " << parkingNode << '\n';
+
                         std::cout << "Walking route: ";
                         for (size_t i = 0; i < walkingRoute.size(); i++) {
                             std::cout << walkingRoute[i];
@@ -268,7 +270,7 @@ int main() {
 
                     // Node to include
                     int includeNode = -1;
-                    std::cout << "Enter includeNode (leave empty for none): ";
+                    std::cout << "Enter IncludeNode (leave empty for none): ";
                     std::cin >> includeNode;
 
                     std::cout << "Nodes to Avoid: ";
