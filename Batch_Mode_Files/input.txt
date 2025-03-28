@@ -1,14 +1,28 @@
-#US1
+#US1 - Driving example
 Mode:driving
 Source:1
 Destination:2
 AvoidNodes:
 AvoidSegments:
 IncludeNode:
-#US2
-Mode:driving-walking
+#US2 - Restricted driving example
+Mode:driving
 Source:1
 Destination:2
-MaxWalkTime:40
-AvoidNodes:3
-AvoidSegments:1-2
+AvoidNodes:5
+AvoidSegments:(4,6)
+IncludeNode:88
+#US3 - Driving-walking example
+Mode:driving-walking
+Source:1
+Destination:70
+MaxWalkTime:90
+AvoidNodes:6
+AvoidSegments:(7,9)
+#US4 - Driving-walking with impossible max time example
+Mode:driving-walking
+Source:1
+Destination:70
+MaxWalkTime:1
+AvoidNodes:6
+AvoidSegments:(7,9)

@@ -202,7 +202,7 @@ int main() {
                         avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, maxWalkTime);
                     //no route found with less than the desired maximum walk time
                     if (pairTime.first == -2) {
-                        std::cout << "No route find with desired maximum walking time. Please consider the following alternatives:\n";
+                        std::cout << "No route found with desired maximum walking time. Please consider the following alternatives:\n";
                         std::cout << "Route 1: \n";
                         pairTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
                         avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, std::numeric_limits<int>::max());

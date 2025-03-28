@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include <vector>
+#include <string>
 
 #include "csvParsing.h"
 #include "RoutePlanner.h"
@@ -41,19 +42,19 @@ void runBatchMode() {
         std::getline(input, line);
         size_t pos = line.find(':');
         mode = line.substr(pos+1);
-        std::cout << "Mode:" << mode << std::endl;
+
 
         // 2ª linha - source
         std::getline(input, line);
         pos = line.find(':');
-        source = stoi(line.substr(pos+1));
-        std::cout << "Source:" << source << std::endl;
+        source = std::stoi(line.substr(pos+1));
+
 
         // 3ª linha - dest
         std::getline(input, line);
         pos = line.find(':');
-        destination = stoi(line.substr(pos+1));
-        std::cout << "Destination:" << destination << std::endl;
+        destination = std::stoi(line.substr(pos+1));
+
 
         // 4ª linha - avoidNodes for driving, maxWalkTime for driving-walking
         if (mode == "driving") {
@@ -68,20 +69,25 @@ void runBatchMode() {
             while ((iss >> node)) {
                 avoidNodes.insert(node);
             }
-            std::cout << "Avoiding Nodes:";
-            for (auto n : avoidNodes) {std::cout << n << " ";}
-            std::cout << std::endl;
         } else {
             std::getline(input, line);
             pos = line.find(':');
-            maxWalkTime = stoi(line.substr(pos+1));
-            std::cout << "MaxWalkTime:" << maxWalkTime << std::endl;
+            maxWalkTime = std::stoi(line.substr(pos+1));
         }
 
         // 5ª linha - avoidSegments for driving, avoidNodes for driving-walking
         if (mode == "driving") {
-            //avoidSegments not yet implemented
             std::getline(input, line);
+            pos = line.find(':');
+            std::string values = line.substr(pos+1);
+            // remover virgulas
+            for (auto& c : values) {if (c == ',' || c == '(' || c == ')' || c == '-') c = ' ';}
+            // ler nodes para o set
+            int node1, node2;
+            std::istringstream iss(values);
+            while ((iss >> node1) && iss >> node2) {
+                avoidSegments.insert({node1, node2});
+            }
         } else {
             std::getline(input, line);
             pos = line.find(':');
@@ -94,15 +100,15 @@ void runBatchMode() {
             while ((iss >> node)) {
                 avoidNodes.insert(node);
             }
-            std::cout << "Avoiding Nodes:";
-            for (auto n : avoidNodes) {std::cout << n << " ";}
-            std::cout << std::endl;
         }
 
         //6ª linha - includeNode for driving, avoidSegments for driving-walking
         if (mode == "driving") {
-            //includeNode not yet implemented
             std::getline(input, line);
+            pos = line.find(':');
+            if (pos + 1 < line.size()) {
+                includeNode = std::stoi(line.substr(pos+1));
+            }
         } else {
             std::getline(input, line);
             pos = line.find(':');
@@ -115,18 +121,7 @@ void runBatchMode() {
             while ((iss >> node1) && iss >> node2) {
                 avoidSegments.insert({node1, node2});
             }
-            std::cout << "Avoiding Segments:";
-            for (auto n : avoidSegments) {std::cout << n.first << ',' << n.second << " ";}
-            std::cout << std::endl;
         }
-
-        std::string modeToUse;
-        //modo a usar
-        if (mode == "driving") {
-            if (!avoidNodes.empty()) {
-                modeToUse = "RestrictedDriving";
-            } else modeToUse = "Driving";
-        } else modeToUse = "DrivingWalking";
 
         //execute
         if (mode == "driving" && avoidNodes.empty()) {
@@ -151,32 +146,97 @@ void runBatchMode() {
             output << '(' << altTime << ')' << std::endl;
         }
         else if (mode == "driving" && !avoidNodes.empty()) {
-            //TODO (Restricted)
+            RoutePlanner planner(&graph);
+            std::vector<int> restrictedRoute;
+            int restrictedTime = planner.calculateRestrictedRoute(source, destination, avoidNodes, avoidSegments, includeNode, restrictedRoute);
+            output << "Source:" << source << std::endl;
+            output << "Destination:" << destination << std::endl;
+            output << "RestrictedDrivingRoute:";
+            if (restrictedTime == -1) output << "none";
+            else {
+                for (int i = 0; i < restrictedRoute.size(); i++) {
+                    if (i == 0) output << restrictedRoute[i];
+                    else output << "," << restrictedRoute[i];
+                }
+                output << '(' << restrictedTime << ')' << std::endl;
+            }
         }
         else if (mode == "driving-walking") {
+            RoutePlanner planner(&graph);
             std::vector<int> drivingRoute;
             std::vector<int> walkingRoute;
             int parkingNode = -1;
-            RoutePlanner planner(&graph);
-            std::pair<int,int> pairTime = planner.calculateDrivingAndWalkingRoute(source, destination,
-                        avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, 1);
 
-            output << "Source:" << source << std::endl;
-            output << "Destination:" << destination << std::endl;
-            output << "DrivingRoute:";
-            for (int i = 0; i < drivingRoute.size(); i++) {
-                if (i == 0) output << drivingRoute[i];
-                else output << "," << drivingRoute[i];
+            std::pair<int,int> pairTime = planner.calculateDrivingAndWalkingRoute(source, destination,
+                avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, maxWalkTime);
+
+            if (pairTime.first == -2) {
+                output << "No route found with desired maximum walking time. Alternatives:\n";
+                pairTime = planner.calculateDrivingAndWalkingRoute(source, destination,
+                avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, std::numeric_limits<int>::max());
+                int totalTime = pairTime.first + pairTime.second;
+                output << "Source:" << source << std::endl;
+                output << "Destination:" << destination << std::endl;
+                output << "DrivingRoute1:";
+                for (int i = 0; i < drivingRoute.size(); i++) {
+                    if (i == 0) output << drivingRoute[i];
+                    else output << "," << drivingRoute[i];
+                }
+                output << '(' << pairTime.first << ')' << std::endl;
+                output << "ParkingNode1:" << parkingNode << std::endl;
+                output << "WalkingRoute1:";
+                for (int i = 0; i < walkingRoute.size(); i++) {
+                    if (i == 0) output << walkingRoute[i];
+                    else output << "," << walkingRoute[i];
+                }
+                output << '(' << pairTime.second << ')' << std::endl;
+                output << "TotalTime1: " << totalTime << std::endl;
+
+                for (auto i = drivingRoute.begin() + 1; i != drivingRoute.end()-1; i++) {
+                    avoidNodes.insert(*i);
+                }
+                for (auto i = walkingRoute.begin() + 1; i != walkingRoute.end()-1; i++) {
+                    avoidNodes.insert(*i);
+                }
+                pairTime = planner.calculateDrivingAndWalkingRoute(source, destination,
+                avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, std::numeric_limits<int>::max());
+
+                totalTime = pairTime.first + pairTime.second;
+                output << "DrivingRoute2:";
+                for (int i = 0; i < drivingRoute.size(); i++) {
+                    if (i == 0) output << drivingRoute[i];
+                    else output << "," << drivingRoute[i];
+                }
+                output << '(' << pairTime.first << ')' << std::endl;
+                output << "ParkingNode2:" << parkingNode << std::endl;
+                output << "WalkingRoute2:";
+                for (int i = 0; i < walkingRoute.size(); i++) {
+                    if (i == 0) output << walkingRoute[i];
+                    else output << "," << walkingRoute[i];
+                }
+                output << '(' << pairTime.second << ')' << std::endl;
+                output << "TotalTime2: " << totalTime << std::endl;
+            } else {
+                pairTime = planner.calculateDrivingAndWalkingRoute(source, destination,
+                avoidNodes, avoidSegments, drivingRoute, walkingRoute, parkingNode, std::numeric_limits<int>::max());
+                int totalTime = pairTime.first + pairTime.second;
+                output << "Source:" << source << std::endl;
+                output << "Destination:" << destination << std::endl;
+                output << "DrivingRoute:";
+                for (int i = 0; i < drivingRoute.size(); i++) {
+                    if (i == 0) output << drivingRoute[i];
+                    else output << "," << drivingRoute[i];
+                }
+                output << '(' << pairTime.first << ')' << std::endl;
+                output << "ParkingNode:" << parkingNode << std::endl;
+                output << "WalkingRoute:";
+                for (int i = 0; i < walkingRoute.size(); i++) {
+                    if (i == 0) output << walkingRoute[i];
+                    else output << "," << walkingRoute[i];
+                }
+                output << '(' << pairTime.second << ')' << std::endl;
+                output << "TotalTime: " << totalTime << std::endl;
             }
-            output << '(' << pairTime.first << ')' << std::endl;
-            output << "ParkingNode:" << parkingNode << std::endl;
-            output << "WalkingRoute:";
-            for (int i = 0; i < walkingRoute.size(); i++) {
-                if (i == 0) output << walkingRoute[i];
-                else output << "," << walkingRoute[i];
-            }
-            output << '(' << pairTime.second << ')' << std::endl;
-            output << "TotalTime:" << pairTime.first + pairTime.second << std::endl;
         }
     }
     output.close();
