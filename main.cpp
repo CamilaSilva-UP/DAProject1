@@ -231,10 +231,10 @@ int main() {
                             std::cout << "Combined time: " << totalTime << " minutes.\n";
                             std::cout << "Route 2: \n";
                             //second route, without repeating any of the intermediate nodes
-                            for (auto i = drivingRoute.begin() + 1; i != drivingRoute.end()-1; i++) {
+                            for (auto i = drivingRoute.begin() + 1; i != drivingRoute.end(); i++) {
                                 avoidNodes.insert(*i);
                             }
-                            for (auto i = walkingRoute.begin() + 1; i != walkingRoute.end()-1; i++) {
+                            for (auto i = walkingRoute.begin(); i != walkingRoute.end()-1; i++) {
                                 avoidNodes.insert(*i);
                             }
                             pairTime = planner.calculateDrivingAndWalkingRoute(sourceID, destinationID,
