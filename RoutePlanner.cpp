@@ -65,7 +65,7 @@ int RoutePlanner::calculateAlternativeRoute(int sourceID, int destinationID, std
     }
 
     // Calcular a rota alternativa ignorando os nós proibidos
-    int alternativeTime = alternative_dijkstra(graph, sourceVertex, destinationVertex, forbidden);
+    int alternativeTime = alternative_dijkstra(graph, sourceVertex, destinationVertex, forbidden, {});
     if (alternativeTime == -1)
         return -1;
 
@@ -75,15 +75,32 @@ int RoutePlanner::calculateAlternativeRoute(int sourceID, int destinationID, std
 }
 
 // Calcula a rota excluindo nós específicos do grafo
-int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, std::vector<int>& route) {
+int RoutePlanner::calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments, int includeNode, std::vector<int>& route) {
     Vertex<int>* sourceVertex = graph->findVertex(sourceID);
     Vertex<int>* destinationVertex = graph->findVertex(destinationID);
     if (!sourceVertex || !destinationVertex) {
         std::cerr << "Source or destination vertex not found.\n";
         return -1;
     }
+    //Se o includeNode for diferente de -1, fazer o Dijkstra alternativo até ao nó a incluir, e depois até ao destino
+    if (includeNode != -1) {
+        auto includeVertex = graph->findVertex(includeNode);
+        if (includeVertex == nullptr) std::cerr << "Include node not found.\n";
+
+        int time1 = alternative_dijkstra(graph, sourceVertex, includeVertex, avoidNodes, avoidSegments);
+        if (time1 == -1) return -1;
+        reconstructRoute(sourceVertex, includeVertex, route);
+
+        std::vector<int> temp;
+        int time2 = alternative_dijkstra(graph, includeVertex, destinationVertex, avoidNodes, avoidSegments);
+        if (time2 == -1) return -1;
+        reconstructRoute(includeVertex, destinationVertex, temp);
+        route.insert(route.end(), temp.begin(), temp.end());
+        return time1 + time2;
+    }
+
     // Usamos o nosso algoritmo de Dijkstra alternativo, mas com o avoidNodes
-    int restrictedTime = alternative_dijkstra(graph, sourceVertex, destinationVertex, avoidNodes);
+    int restrictedTime = alternative_dijkstra(graph, sourceVertex, destinationVertex, avoidNodes, avoidSegments);
     if (restrictedTime == -1)
         return -1;
     reconstructRoute(sourceVertex, destinationVertex, route);

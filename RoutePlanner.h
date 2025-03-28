@@ -42,12 +42,14 @@ public:
     /// @param sourceID The id of the source node
     /// @param destinationID The id of the destination node
     /// @param avoidNodes A set of node IDs that will be avoided in the calculation of the route
+    /// @param avoidSegments A set of edges, represented by a pair of node IDs, that will be avoided in the calculation of the route
+    /// @param includeNode Node to be included in the path
     /// @param route A reference to a vector where the route will be stored
     /// @return The distance of the route calculated
     ///
     /// @brief Planner for the best driving route, avoiding a specified set of nodes
     /// @details Calculates and saves the best driving route from a source node to a destination node, without passing by any of the nodes with an ID in the avoidNodes set
-    int calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, std::vector<int>& route);
+    int calculateRestrictedRoute(int sourceID, int destinationID, const std::unordered_set<int>& avoidNodes, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments, int includeNode, std::vector<int>& route);
 
     ///
     /// @param sourceID The id of the source node

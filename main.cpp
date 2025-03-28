@@ -222,7 +222,7 @@ int main() {
                 } else if (selectedMode == 3) {
                     // Restricted Routes
                     int sourceID, destinationID;
-                    std::string avoidNodesInput;
+                    std::string avoidNodesInput, avoidSegmentsInput;
                     std::cout << "Restricted Routes mode selected.\n";
                     std::cout << "Enter source ID: ";
                     std::cin >> sourceID;
@@ -246,15 +246,51 @@ int main() {
                         }
                     }
 
+                    // Edges to avoid
+                    std::unordered_set<std::pair<int, int>, pair_hash<int, int>> avoidSegments;
+                    std::cout << "Enter AvoidSegments (format: 1-2, separated by commas): ";
+                    std::getline(std::cin, avoidSegmentsInput);
+
+                    std::stringstream ssSegments(avoidSegmentsInput);
+                    while (std::getline(ssSegments, token, ',')) {
+                        if (token.empty()) continue;
+                        try {
+                            size_t pos = token.find('-');
+                            if (pos != std::string::npos) {
+                                int node1 = std::stoi(token.substr(0, pos));
+                                int node2 = std::stoi(token.substr(pos + 1));
+                                avoidSegments.insert({node1, node2});
+                            }
+                        } catch (const std::invalid_argument& e) {
+                            std::cerr << "Invalid segment in AvoidSegments: " << token << "\n";
+                        }
+                    }
+
+                    // Node to include
+                    int includeNode = -1;
+                    std::cout << "Enter includeNode (leave empty for none): ";
+                    std::cin >> includeNode;
+
                     std::cout << "Nodes to Avoid: ";
                     for (auto node : avoidNodes) {
                         std::cout << node << " ";
                     }
                     std::cout << "\n";
 
+                    std::cout << "Edges to Avoid: ";
+                    for (auto edge : avoidSegments) {
+                        std::cout << edge.first << "->" << edge.second << " ";
+                    }
+                    std::cout << "\n";
+
+                    std::cout << "Node to Include: ";
+                    if (includeNode != -1) std::cout << includeNode;
+                    std::cout << "\n";
+
+
                     // Calcular a rota restrita
                     std::vector<int> restrictedRoute;
-                    int restrictedTime = planner.calculateRestrictedRoute(sourceID, destinationID, avoidNodes, restrictedRoute);
+                    int restrictedTime = planner.calculateRestrictedRoute(sourceID, destinationID, avoidNodes, avoidSegments, includeNode, restrictedRoute);
                     if (restrictedTime == -1) {
                         std::cout << "RestrictedDrivingRoute:none\n";
                     } else {

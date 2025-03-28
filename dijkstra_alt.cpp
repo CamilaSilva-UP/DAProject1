@@ -23,7 +23,7 @@ caso contrário, imprimir “AlternativeDrivingRoute:none” (e same para a rota
 
 // Dijkstra, mas que ignora os vértices do meio
 template <class T>
-int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden) {
+int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments) {
     for (auto v : G->getVertexSet()) {
         v->setDist(INF);
         v->setPath(nullptr);
@@ -41,6 +41,9 @@ int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const 
             auto v = e->getDest();
             // Se v for um nó proibido (mas se for o destino, permitimos)
             if (v != dest && forbidden.find(v->getInfo()) != forbidden.end())
+                continue;
+            // Se {u,v} for uma edge proibída, ignorar
+            if (avoidSegments.find({u->getInfo(), v->getInfo()}) != avoidSegments.end())
                 continue;
             if (v->getDist() > u->getDist() + e->getDrivingWeight()) {
                 v->setDist(u->getDist() + e->getDrivingWeight());
