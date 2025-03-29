@@ -9,7 +9,7 @@
 
 ///
 ///@file csvparsing.h
-///@brief Header file containing the declaration of the functions required for parsing csv files
+///@brief Functions required for parsing csv files
 ///
 
 

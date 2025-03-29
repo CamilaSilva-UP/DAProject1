@@ -8,7 +8,7 @@
 
 ///
 ///@file RoutePlanner.h
-///@brief Header file for the RoutePlanner class. These methods are used to reconstruct and calculate routes using Dijkstra's algorithm
+///@brief RoutePlanner class. These methods are used to reconstruct and calculate routes using Dijkstra's algorithm
 ///
 
 

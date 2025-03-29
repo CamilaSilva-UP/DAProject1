@@ -5,8 +5,6 @@ var NAVTREEINDEX0 =
 "_route_planner_8h.html":[2,0,9],
 "_route_planner_8h_source.html":[2,0,9],
 "annotated.html":[1,0],
-"batch_mode_8h.html":[2,0,0],
-"batch_mode_8h.html#a4b04b97282ba6dd2a4cc66a92d558876":[2,0,0,0],
 "batch_mode_8h_source.html":[2,0,0],
 "class_edge.html":[1,0,0],
 "class_graph.html":[1,0,1],

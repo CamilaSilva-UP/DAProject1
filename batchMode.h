@@ -6,11 +6,6 @@
 #define BATCHMODE_H
 
 ///
-///@file batchMode.h
-///@brief Header file containing the declaration of the function required for batch mode
-///
-
-///
 ///@brief Runs batch mode
 ///
 ///@details Processes the input.txt file in the Batch_Mode_Files directory,

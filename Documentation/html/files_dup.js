@@ -1,6 +1,6 @@
 var files_dup =
 [
-    [ "batchMode.h", "batch_mode_8h.html", "batch_mode_8h" ],
+    [ "batchMode.h", "batch_mode_8h_source.html", null ],
     [ "csvparsing.h", "csvparsing_8h.html", "csvparsing_8h" ],
     [ "dijkstra.cpp", "dijkstra_8cpp_source.html", null ],
     [ "dijkstra.h", "dijkstra_8h.html", "dijkstra_8h" ],

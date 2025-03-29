@@ -8,7 +8,7 @@
 
 ///
 ///@file dijkstra.h
-///@brief Header file containing the declaration of the base Dijkstra's algorithm, used for finding the shortest driving path
+///@brief Base Dijkstra's algorithm, used for finding the shortest driving path
 ///
 
 ///

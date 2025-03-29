@@ -9,7 +9,7 @@
 #include "pair_hash.h"
 ///
 ///@file dijkstra_alt.h
-///@brief Header file containing the declaration of an altered version Dijkstra's algorithm that ignores specified nodes
+///@brief Altered versions Dijkstra's algorithm that ignore specified nodes and edges
 ///
 
 

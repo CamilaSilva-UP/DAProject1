@@ -5,7 +5,7 @@
 #include <functional>
 ///
 ///@file pair_hash.h
-///@brief Header file containing the declaration of a hash function for pairs
+///@brief Hash function for pairs
 ///
 
 /// 
