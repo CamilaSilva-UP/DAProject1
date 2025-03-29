@@ -71,8 +71,8 @@ int main() {
             }
 
             if (option == 1) {
-                csvLocationParsing("csv_examples/Locations.csv");
-                csvDistancesParsing("csv_examples/Distances.csv");
+                csvLocationParsing("csv_files/Locations.csv");
+                csvDistancesParsing("csv_files/Distances.csv");
                 std::cout << "CSV data loaded successfully!\n";
                 dataLoaded = true;
             } else if (option == 2) {

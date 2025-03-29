@@ -1,0 +1,44 @@
+\doxysection{dijkstra.\+h File Reference}
+\hypertarget{dijkstra_8h}{}\label{dijkstra_8h}\index{dijkstra.h@{dijkstra.h}}
+{\ttfamily \#include "{}Graph.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T$>$ }\\int \mbox{\hyperlink{dijkstra_8h_a5994669f043d4b3751cd5eb68ae38cda}{dijkstra}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}G, \mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}source, \mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Header file containing the declaration of the base Dijkstra\textquotesingle{}s algorithm, used for finding the shortest driving path. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{dijkstra_8h_a5994669f043d4b3751cd5eb68ae38cda}\index{dijkstra.h@{dijkstra.h}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!dijkstra.h@{dijkstra.h}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily \label{dijkstra_8h_a5994669f043d4b3751cd5eb68ae38cda} 
+template$<$class T$>$ \\
+int dijkstra (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{G}{, }\item[{\mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{source}{, }\item[{\mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Header file containing the declaration of the base Dijkstra\textquotesingle{}s algorithm, used for finding the shortest driving path. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the variable type used by the \doxylink{class_graph}{Graph} \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em G} & the \doxylink{class_graph}{Graph} that the algorithm will be applied to \\
+\hline
+{\em source} & the source node of the route \\
+\hline
+{\em dest} & the destination of the route \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the distance of the shortest path from source to dest, when driving
+\end{DoxyReturn}
+Implementation of Dijkstra\textquotesingle{}s algorithm
+
+Calculates the shortest driving path from a source node to a destination node \begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}

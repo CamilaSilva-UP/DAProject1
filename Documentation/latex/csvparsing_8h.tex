@@ -1,0 +1,55 @@
+\doxysection{csvparsing.\+h File Reference}
+\hypertarget{csvparsing_8h}{}\label{csvparsing_8h}\index{csvparsing.h@{csvparsing.h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include "{}Graph.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{csvparsing_8h_ab6b0160bd81eff76ce89801a36ecc692}{csv\+Location\+Parsing}} (const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Parses the Locations.\+csv file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{csvparsing_8h_ade5127f32d09fe50e4b9dc0da760a9cf}{csv\+Distances\+Parsing}} (const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Parses the Distances.\+csv file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{csvparsing_8h_a3ff123a23072cf84d8002b79510ca219}\label{csvparsing_8h_a3ff123a23072cf84d8002b79510ca219} 
+\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ {\bfseries graph}
+\begin{DoxyCompactList}\small\item\em Header file containing the declaration of the functions required for parsing csv files. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{csvparsing_8h_ade5127f32d09fe50e4b9dc0da760a9cf}\index{csvparsing.h@{csvparsing.h}!csvDistancesParsing@{csvDistancesParsing}}
+\index{csvDistancesParsing@{csvDistancesParsing}!csvparsing.h@{csvparsing.h}}
+\doxysubsubsection{\texorpdfstring{csvDistancesParsing()}{csvDistancesParsing()}}
+{\footnotesize\ttfamily \label{csvparsing_8h_ade5127f32d09fe50e4b9dc0da760a9cf} 
+void csv\+Distances\+Parsing (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Parses the Distances.\+csv file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & the filepath to the Distances.\+csv file, relative to the project\textquotesingle{}s root directory\\
+\hline
+\end{DoxyParams}
+
+
+Parses the Distances.\+csv file, creating the corresponding edges in a global \doxylink{class_graph}{Graph} \Hypertarget{csvparsing_8h_ab6b0160bd81eff76ce89801a36ecc692}\index{csvparsing.h@{csvparsing.h}!csvLocationParsing@{csvLocationParsing}}
+\index{csvLocationParsing@{csvLocationParsing}!csvparsing.h@{csvparsing.h}}
+\doxysubsubsection{\texorpdfstring{csvLocationParsing()}{csvLocationParsing()}}
+{\footnotesize\ttfamily \label{csvparsing_8h_ab6b0160bd81eff76ce89801a36ecc692} 
+void csv\+Location\+Parsing (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Parses the Locations.\+csv file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & the filepath to the Locations.\+csv file, relative to the project\textquotesingle{}s root directory\\
+\hline
+\end{DoxyParams}
+
+
+Parses the Location.\+csv file, creating the corresponding nodes in a global \doxylink{class_graph}{Graph} 

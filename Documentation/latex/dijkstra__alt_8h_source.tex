@@ -1,0 +1,23 @@
+\doxysection{dijkstra\+\_\+alt.\+h}
+\hypertarget{dijkstra__alt_8h_source}{}\label{dijkstra__alt_8h_source}\mbox{\hyperlink{dijkstra__alt_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Milla\ on\ 3/27/2025.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ DIJKSTRA\_ALT\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ DIJKSTRA\_ALT\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Graph.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{pair__hash_8h}{pair\_hash.h}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dijkstra__alt_8h_a61f28bccd7bbe550230600916cb16777}{alternative\_dijkstra}}(\mbox{\hyperlink{class_graph}{Graph<T>}}*\ G,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ source,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ dest,\ \textcolor{keyword}{const}\ std::unordered\_set<T>\&\ forbidden,\ \textcolor{keyword}{const}\ std::unordered\_set<std::pair<int,\ int>,\ \mbox{\hyperlink{structpair__hash}{pair\_hash<int,\ int>}}>\&\ avoidSegments);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dijkstra__alt_8h_a455d7cad51a6924a58a3b27c23411dea}{walking\_alt\_dijkstra}}(\mbox{\hyperlink{class_graph}{Graph<T>}}*\ G,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ source,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ dest,\ \textcolor{keyword}{const}\ std::unordered\_set<T>\&\ forbidden,\ \textcolor{keyword}{const}\ std::unordered\_set<std::pair<int,\ int>,\ \mbox{\hyperlink{structpair__hash}{pair\_hash<int,\ int>}}>\&\ avoidSegments);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//DIJKSTRA\_ALT\_H}}
+
+\end{DoxyCode}

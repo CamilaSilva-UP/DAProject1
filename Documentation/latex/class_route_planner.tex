@@ -1,0 +1,174 @@
+\doxysection{Route\+Planner Class Reference}
+\hypertarget{class_route_planner}{}\label{class_route_planner}\index{RoutePlanner@{RoutePlanner}}
+
+
+Header file for the \doxylink{class_route_planner}{Route\+Planner} class. These methods are used to reconstruct and calculate routes using Dijkstra\textquotesingle{}s algorithm.  
+
+
+
+
+{\ttfamily \#include $<$Route\+Planner.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_route_planner_a9b02299bae415d8739b3e76759732d1c}{Route\+Planner}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \texorpdfstring{$\ast$}{*}g)
+\item 
+int \mbox{\hyperlink{class_route_planner_af7ecfa6d1223baf04419f175069b20f6}{calculate\+Best\+Driving\+Route}} (int source\+ID, int destination\+ID, std\+::vector$<$ int $>$ \&route)
+\begin{DoxyCompactList}\small\item\em Planner for the best driving route. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_route_planner_a90510e9a6f279144b4fbd529d59d9bb6}{calculate\+Alternative\+Route}} (int source\+ID, int destination\+ID, std\+::vector$<$ int $>$ \&route)
+\begin{DoxyCompactList}\small\item\em Planner for the alternate driving route. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_route_planner_add391213672a2c06f1ef5a3c70552ac6}{calculate\+Restricted\+Route}} (int source\+ID, int destination\+ID, const std\+::unordered\+\_\+set$<$ int $>$ \&avoid\+Nodes, const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&avoid\+Segments, int include\+Node, std\+::vector$<$ int $>$ \&route)
+\begin{DoxyCompactList}\small\item\em Planner for the best driving route, avoiding a specified set of nodes. \end{DoxyCompactList}\item 
+std\+::pair$<$ int, int $>$ \mbox{\hyperlink{class_route_planner_ac6e73990f02580d787a199d3fbfcb8db}{calculate\+Driving\+And\+Walking\+Route}} (int source\+ID, int destination\+ID, std\+::unordered\+\_\+set$<$ int $>$ \&avoid\+Nodes, const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&avoid\+Segments, std\+::vector$<$ int $>$ \&driving\+Route, std\+::vector$<$ int $>$ \&walking\+Route, int \&parking\+Node, int max\+Walk\+Time)
+\begin{DoxyCompactList}\small\item\em Planner for the best driving and walking route. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for the \doxylink{class_route_planner}{Route\+Planner} class. These methods are used to reconstruct and calculate routes using Dijkstra\textquotesingle{}s algorithm. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_route_planner_a9b02299bae415d8739b3e76759732d1c}\index{RoutePlanner@{RoutePlanner}!RoutePlanner@{RoutePlanner}}
+\index{RoutePlanner@{RoutePlanner}!RoutePlanner@{RoutePlanner}}
+\doxysubsubsection{\texorpdfstring{RoutePlanner()}{RoutePlanner()}}
+{\footnotesize\ttfamily \label{class_route_planner_a9b02299bae415d8739b3e76759732d1c} 
+Route\+Planner\+::\+Route\+Planner (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \texorpdfstring{$\ast$}{*}}]{g}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The graph that the planner will be constructed for \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_route_planner_a90510e9a6f279144b4fbd529d59d9bb6}\index{RoutePlanner@{RoutePlanner}!calculateAlternativeRoute@{calculateAlternativeRoute}}
+\index{calculateAlternativeRoute@{calculateAlternativeRoute}!RoutePlanner@{RoutePlanner}}
+\doxysubsubsection{\texorpdfstring{calculateAlternativeRoute()}{calculateAlternativeRoute()}}
+{\footnotesize\ttfamily \label{class_route_planner_a90510e9a6f279144b4fbd529d59d9bb6} 
+int Route\+Planner\+::calculate\+Alternative\+Route (\begin{DoxyParamCaption}\item[{int}]{source\+ID}{, }\item[{int}]{destination\+ID}{, }\item[{std\+::vector$<$ int $>$ \&}]{route}{}\end{DoxyParamCaption})}
+
+
+
+Planner for the alternate driving route. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\+ID} & The id of the source node \\
+\hline
+{\em destination\+ID} & The id of the destination node \\
+\hline
+{\em route} & A reference to a vector where the route will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distance of the route calculated
+\end{DoxyReturn}
+Calculates the best driving route from a source node to a destination node, and then finds an alternative route where none of the intermediate nodes are the same
+
+\begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}
+\Hypertarget{class_route_planner_af7ecfa6d1223baf04419f175069b20f6}\index{RoutePlanner@{RoutePlanner}!calculateBestDrivingRoute@{calculateBestDrivingRoute}}
+\index{calculateBestDrivingRoute@{calculateBestDrivingRoute}!RoutePlanner@{RoutePlanner}}
+\doxysubsubsection{\texorpdfstring{calculateBestDrivingRoute()}{calculateBestDrivingRoute()}}
+{\footnotesize\ttfamily \label{class_route_planner_af7ecfa6d1223baf04419f175069b20f6} 
+int Route\+Planner\+::calculate\+Best\+Driving\+Route (\begin{DoxyParamCaption}\item[{int}]{source\+ID}{, }\item[{int}]{destination\+ID}{, }\item[{std\+::vector$<$ int $>$ \&}]{route}{}\end{DoxyParamCaption})}
+
+
+
+Planner for the best driving route. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\+ID} & The id of the source node \\
+\hline
+{\em destination\+ID} & The id of the destination node \\
+\hline
+{\em route} & A reference to a vector where the route will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distance of the route calculated
+\end{DoxyReturn}
+Calculates and saves the best driving route from a source node to a destination node
+
+\begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}
+\Hypertarget{class_route_planner_ac6e73990f02580d787a199d3fbfcb8db}\index{RoutePlanner@{RoutePlanner}!calculateDrivingAndWalkingRoute@{calculateDrivingAndWalkingRoute}}
+\index{calculateDrivingAndWalkingRoute@{calculateDrivingAndWalkingRoute}!RoutePlanner@{RoutePlanner}}
+\doxysubsubsection{\texorpdfstring{calculateDrivingAndWalkingRoute()}{calculateDrivingAndWalkingRoute()}}
+{\footnotesize\ttfamily \label{class_route_planner_ac6e73990f02580d787a199d3fbfcb8db} 
+std\+::pair$<$ int, int $>$ Route\+Planner\+::calculate\+Driving\+And\+Walking\+Route (\begin{DoxyParamCaption}\item[{int}]{source\+ID}{, }\item[{int}]{destination\+ID}{, }\item[{std\+::unordered\+\_\+set$<$ int $>$ \&}]{avoid\+Nodes}{, }\item[{const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&}]{avoid\+Segments}{, }\item[{std\+::vector$<$ int $>$ \&}]{driving\+Route}{, }\item[{std\+::vector$<$ int $>$ \&}]{walking\+Route}{, }\item[{int \&}]{parking\+Node}{, }\item[{int}]{max\+Walk\+Time}{}\end{DoxyParamCaption})}
+
+
+
+Planner for the best driving and walking route. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\+ID} & The id of the source node \\
+\hline
+{\em destination\+ID} & The id of the destination node \\
+\hline
+{\em avoid\+Nodes} & A set of node IDs that will be avoided in the calculation of the route \\
+\hline
+{\em avoid\+Segments} & A set of edges, represented by a pair of node IDs, that will be avoided in the calculation of the route \\
+\hline
+{\em driving\+Route} & A reference to a vector where the driving section of the route will be stored \\
+\hline
+{\em walking\+Route} & A reference to a vector where the walking section of the route will be stored \\
+\hline
+{\em parking\+Node} & A reference to a variable where the ID of the parking node will be stored \\
+\hline
+{\em max\+Walk\+Time} & The maximum walk time desired for the route \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pair containing the distance of the driving route (first) and the distance of the walking route (second). Returns \{-\/1, 0\} if no route is found, and \{-\/2, 0\} if the route found exceeds the maximum walking time desired
+\end{DoxyReturn}
+Calculates and saves the best route combining a driving segment and a waling segment, without passing by any of the nodes with an ID in the avoid\+Nodes set or any of the edges in the avoid\+Segments set
+
+\begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}
+\Hypertarget{class_route_planner_add391213672a2c06f1ef5a3c70552ac6}\index{RoutePlanner@{RoutePlanner}!calculateRestrictedRoute@{calculateRestrictedRoute}}
+\index{calculateRestrictedRoute@{calculateRestrictedRoute}!RoutePlanner@{RoutePlanner}}
+\doxysubsubsection{\texorpdfstring{calculateRestrictedRoute()}{calculateRestrictedRoute()}}
+{\footnotesize\ttfamily \label{class_route_planner_add391213672a2c06f1ef5a3c70552ac6} 
+int Route\+Planner\+::calculate\+Restricted\+Route (\begin{DoxyParamCaption}\item[{int}]{source\+ID}{, }\item[{int}]{destination\+ID}{, }\item[{const std\+::unordered\+\_\+set$<$ int $>$ \&}]{avoid\+Nodes}{, }\item[{const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&}]{avoid\+Segments}{, }\item[{int}]{include\+Node}{, }\item[{std\+::vector$<$ int $>$ \&}]{route}{}\end{DoxyParamCaption})}
+
+
+
+Planner for the best driving route, avoiding a specified set of nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\+ID} & The id of the source node \\
+\hline
+{\em destination\+ID} & The id of the destination node \\
+\hline
+{\em avoid\+Nodes} & A set of node IDs that will be avoided in the calculation of the route \\
+\hline
+{\em avoid\+Segments} & A set of edges, represented by a pair of node IDs, that will be avoided in the calculation of the route \\
+\hline
+{\em include\+Node} & Node to be included in the path \\
+\hline
+{\em route} & A reference to a vector where the route will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distance of the route calculated
+\end{DoxyReturn}
+Calculates and saves the best driving route from a source node to a destination node, without passing by any of the nodes with an ID in the avoid\+Nodes set
+
+\begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_route_planner_8h}{Route\+Planner.\+h}}\item 
+Route\+Planner.\+cpp\end{DoxyCompactItemize}

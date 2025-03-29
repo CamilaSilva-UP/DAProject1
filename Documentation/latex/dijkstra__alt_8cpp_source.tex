@@ -1,0 +1,100 @@
+\doxysection{dijkstra\+\_\+alt.\+cpp}
+\hypertarget{dijkstra__alt_8cpp_source}{}\label{dijkstra__alt_8cpp_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Graph.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}MutablePriorityQueue.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{dijkstra__alt_8h}{dijkstra\_alt.h}}"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ Implementação\ do\ algoritmo\ de\ Dijkstra\ alternativo\ que\ evita\ nós\ proibidos\ para\ calcular\ a\ rota\ secundária.}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Raciocínio:}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00012\ \textcolor{comment}{1.\ Executar\ o\ Dijkstra\ “normal”\ para\ encontrar\ a\ melhor\ rota.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{2.\ Reconstruir\ essa\ rota\ e\ obter\ um\ conjunto\ (por\ exemplo,\ um\ std::unordered\_set)\ dos\ nós\ do\ meio\ a\ excluir.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{}}
+\DoxyCodeLine{00016\ \textcolor{comment}{3.\ Executar\ um\ segundo\ Dijkstra,\ mas\ com\ um\ “filtro”\ que\ ignora\ qualquer\ relaxamento}}
+\DoxyCodeLine{00017\ \textcolor{comment}{para\ um\ vértice\ cujo\ ID\ esteja\ no\ conjunto\ de\ nós\ proibidos\ (com\ exceção\ da\ origin\ e\ destination).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{4.\ Se\ a\ rota\ alternativa\ existir,\ mostrar\ ambos\ os\ caminhos\ com\ os\ seus\ tempos;}}
+\DoxyCodeLine{00020\ \textcolor{comment}{caso\ contrário,\ imprimir\ “AlternativeDrivingRoute:none”\ (e\ same\ para\ a\ rota\ principal,\ se\ não\ existir).}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ Dijkstra,\ capaz\ de\ ignorar\ vertices\ e\ segmentos}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ alternative\_dijkstra(\mbox{\hyperlink{class_graph}{Graph<T>}}*\ G,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ source,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ dest,\ \textcolor{keyword}{const}\ std::unordered\_set<T>\&\ forbidden,\ \textcolor{keyword}{const}\ std::unordered\_set<std::pair<int,\ int>,\ \mbox{\hyperlink{structpair__hash}{pair\_hash<int,\ int>}}>\&\ avoidSegments)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ v\ :\ G-\/>getVertexSet())\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ v-\/>setDist(INF);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ v-\/>setPath(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ source-\/>setDist(0);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{class_mutable_priority_queue}{MutablePriorityQueue<Vertex<T>}}>\ Q;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ v\ :\ G-\/>getVertexSet())\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ Q.insert(v);}
+\DoxyCodeLine{00036\ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{while}\ (!Q.empty())\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ u\ =\ Q.extractMin();}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ e\ :\ u-\/>getAdj())\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ v\ =\ e-\/>getDest();}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Se\ v\ for\ um\ nó\ proibido\ (mas\ se\ for\ o\ destino,\ permitimos)}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v\ !=\ dest\ \&\&\ forbidden.find(v-\/>getInfo())\ !=\ forbidden.end())}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Se\ \{u,v\}\ for\ uma\ edge\ proibída,\ ignorar}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (avoidSegments.find(\{u-\/>getInfo(),\ v-\/>getInfo()\})\ !=\ avoidSegments.end())}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v-\/>getDist()\ >\ u-\/>getDist()\ +\ e-\/>getDrivingWeight())\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v-\/>setDist(u-\/>getDist()\ +\ e-\/>getDrivingWeight());}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v-\/>setPath(e);}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Q.decreaseKey(v);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{double}\ d\ =\ dest-\/>getDist();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{if}\ (d\ ==\ INF)}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(d);}
+\DoxyCodeLine{00059\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{int}\ walking\_alt\_dijkstra(\mbox{\hyperlink{class_graph}{Graph<T>}}*\ G,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ source,\ \mbox{\hyperlink{class_vertex}{Vertex<T>}}*\ dest,\ \textcolor{keyword}{const}\ std::unordered\_set<T>\&\ forbidden,\ \textcolor{keyword}{const}\ std::unordered\_set<std::pair<int,\ int>,\ \mbox{\hyperlink{structpair__hash}{pair\_hash<int,\ int>}}>\&\ avoidSegments)\{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ v\ :\ G-\/>getVertexSet())\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ v-\/>setDist(INF);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ v-\/>setPath(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ source-\/>setDist(0);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{class_mutable_priority_queue}{MutablePriorityQueue<Vertex<T>}}>\ Q;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ v\ :\ G-\/>getVertexSet())\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ Q.insert(v);}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{while}\ (!Q.empty())\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ u\ =\ Q.extractMin();}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ e\ :\ u-\/>getAdj())\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ v\ =\ e-\/>getDest();}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Se\ v\ for\ um\ nó\ proibido\ (mas\ se\ for\ o\ destino,\ permitimos)}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v\ !=\ dest\ \&\&\ forbidden.find(v-\/>getInfo())\ !=\ forbidden.end())}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Se\ \{u,v\}\ for\ uma\ edge\ proibída,\ ignorar}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (avoidSegments.find(\{u-\/>getInfo(),\ v-\/>getInfo()\})\ !=\ avoidSegments.end())}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v-\/>getDist()\ >\ u-\/>getDist()\ +\ e-\/>getWalkingWeight())\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v-\/>setDist(u-\/>getDist()\ +\ e-\/>getWalkingWeight());}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v-\/>setPath(e);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Q.decreaseKey(v);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{double}\ d\ =\ dest-\/>getDist();}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{if}\ (d\ ==\ INF)}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(d);}
+\DoxyCodeLine{00095\ \}}
+
+\end{DoxyCode}

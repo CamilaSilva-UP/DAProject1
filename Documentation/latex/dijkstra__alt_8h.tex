@@ -1,0 +1,93 @@
+\doxysection{dijkstra\+\_\+alt.\+h File Reference}
+\hypertarget{dijkstra__alt_8h}{}\label{dijkstra__alt_8h}\index{dijkstra\_alt.h@{dijkstra\_alt.h}}
+{\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
+{\ttfamily \#include "{}Graph.\+h"{}}\newline
+{\ttfamily \#include "{}pair\+\_\+hash.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T$>$ }\\int \mbox{\hyperlink{dijkstra__alt_8h_a61f28bccd7bbe550230600916cb16777}{alternative\+\_\+dijkstra}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}G, \mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}source, \mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}dest, const std\+::unordered\+\_\+set$<$ T $>$ \&forbidden, const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&avoid\+Segments)
+\begin{DoxyCompactList}\small\item\em Header file containing the declaration of an altered version Dijkstra\textquotesingle{}s algorithm that ignores specified nodes. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T$>$ }\\int \mbox{\hyperlink{dijkstra__alt_8h_a455d7cad51a6924a58a3b27c23411dea}{walking\+\_\+alt\+\_\+dijkstra}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}G, \mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}source, \mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}dest, const std\+::unordered\+\_\+set$<$ T $>$ \&forbidden, const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&avoid\+Segments)
+\begin{DoxyCompactList}\small\item\em Altered implementation of Dijkstra\textquotesingle{}s algorithm that ignores specified nodes and edges. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{dijkstra__alt_8h_a61f28bccd7bbe550230600916cb16777}\index{dijkstra\_alt.h@{dijkstra\_alt.h}!alternative\_dijkstra@{alternative\_dijkstra}}
+\index{alternative\_dijkstra@{alternative\_dijkstra}!dijkstra\_alt.h@{dijkstra\_alt.h}}
+\doxysubsubsection{\texorpdfstring{alternative\_dijkstra()}{alternative\_dijkstra()}}
+{\footnotesize\ttfamily \label{dijkstra__alt_8h_a61f28bccd7bbe550230600916cb16777} 
+template$<$class T$>$ \\
+int alternative\+\_\+dijkstra (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{G}{, }\item[{\mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{source}{, }\item[{\mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{dest}{, }\item[{const std\+::unordered\+\_\+set$<$ T $>$ \&}]{forbidden}{, }\item[{const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&}]{avoid\+Segments}{}\end{DoxyParamCaption})}
+
+
+
+Header file containing the declaration of an altered version Dijkstra\textquotesingle{}s algorithm that ignores specified nodes. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the variable type used by the \doxylink{class_graph}{Graph} \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em G} & the \doxylink{class_graph}{Graph} that the algorithm will be applied to \\
+\hline
+{\em source} & the source node of the route \\
+\hline
+{\em dest} & the destination of the route \\
+\hline
+{\em forbidden} & the set of nodes that will be ignored by the algorithm \\
+\hline
+{\em avoid\+Segments} & A set of edges, represented by a pair of node IDs, that will be avoided in the calculation of the route \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the distance of the shortest path from source to dest, when driving
+\end{DoxyReturn}
+Altered implementation of Dijkstra\textquotesingle{}s algorithm that ignores specified nodes and edges
+
+Calculates the shortest driving path from a source node to a destination node, without passing by any of the nodes in the forbidden set or any of the edges in the avoid\+Segments set
+
+\begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}
+\Hypertarget{dijkstra__alt_8h_a455d7cad51a6924a58a3b27c23411dea}\index{dijkstra\_alt.h@{dijkstra\_alt.h}!walking\_alt\_dijkstra@{walking\_alt\_dijkstra}}
+\index{walking\_alt\_dijkstra@{walking\_alt\_dijkstra}!dijkstra\_alt.h@{dijkstra\_alt.h}}
+\doxysubsubsection{\texorpdfstring{walking\_alt\_dijkstra()}{walking\_alt\_dijkstra()}}
+{\footnotesize\ttfamily \label{dijkstra__alt_8h_a455d7cad51a6924a58a3b27c23411dea} 
+template$<$class T$>$ \\
+int walking\+\_\+alt\+\_\+dijkstra (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{G}{, }\item[{\mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{source}{, }\item[{\mbox{\hyperlink{class_vertex}{Vertex}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{dest}{, }\item[{const std\+::unordered\+\_\+set$<$ T $>$ \&}]{forbidden}{, }\item[{const std\+::unordered\+\_\+set$<$ std\+::pair$<$ int, int $>$, \mbox{\hyperlink{structpair__hash}{pair\+\_\+hash}}$<$ int, int $>$ $>$ \&}]{avoid\+Segments}{}\end{DoxyParamCaption})}
+
+
+
+Altered implementation of Dijkstra\textquotesingle{}s algorithm that ignores specified nodes and edges. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the variable type used by the graph \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em G} & the \doxylink{class_graph}{Graph} that the algorithm will be applied to \\
+\hline
+{\em source} & the source node of the route \\
+\hline
+{\em dest} & the destination of the route \\
+\hline
+{\em forbidden} & the set of nodes that will be ignored by the algorithm \\
+\hline
+{\em avoid\+Segments} & A set of edges, represented by a pair of node IDs, that will be avoided in the calculation of the route \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the distance of the shortest path from source to dest, when walking
+\end{DoxyReturn}
+
+
+Calculates the shortest walking path from a source node to a destination node, without passing by any of the nodes in the forbidden set or any of the edges in the avoid\+Segments set
+
+\begin{DoxyNote}{Note}
+Time Complexity\+: O((V + E) log V) 
+\end{DoxyNote}

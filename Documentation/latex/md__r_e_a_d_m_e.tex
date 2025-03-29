@@ -1,0 +1,58 @@
+\chapter{Individual Route Planning Tool}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Individual Route Planning Tool@{Individual Route Planning Tool}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Features}{Features}}\label{md__r_e_a_d_m_e_autotoc_md1}
+
+\begin{DoxyItemize}
+\item Calculates the shortest route between two nodes of a given graph
+\item Driving mode (with and without restrictions)
+\item Driving + Walking mode
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{\texorpdfstring{Usage}{Usage}}\label{md__r_e_a_d_m_e_autotoc_md2}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{\texorpdfstring{Menu Mode\+:}{Menu Mode\+:}}\label{md__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyItemize}
+\item Load csv files
+\begin{DoxyItemize}
+\item Place Distances.\+cvs and Locations.\+csv in the "{}csv\+\_\+files"{} folder before running the program
+\end{DoxyItemize}
+\item Select mode
+\item Execute functionality
+\item Exit
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsection{\texorpdfstring{Batch Mode\+:}{Batch Mode\+:}}\label{md__r_e_a_d_m_e_autotoc_md4}
+
+\begin{DoxyItemize}
+\item Place Distances.\+cvs and Locations.\+csv in the "{}csv\+\_\+files"{} folder
+\item Place "{}input.\+txt"{} inside the "{}\+Batch\+\_\+\+Mode\+\_\+\+Files"{} folder
+\item Run the program and select Batch Mode
+\item The output will be written to "{}output.\+txt"{} in the "{}\+Batch\+\_\+\+Mode\+\_\+\+Files"{} folder
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{input.\+txt Examples}{input.\+txt Examples}}\label{md__r_e_a_d_m_e_autotoc_md5}
+Please follow the following formatting for the input.\+txt file
+
+\#\+Test1 (replace Test1 with the name of the test)
+
+Mode\+:driving
+
+Source\+:id
+
+Destination\+:id
+
+Avoid\+Nodes\+:id,id,... (optional)
+
+Avoid\+Segments\+:(id,id),(id,id),... (optional)
+
+Include\+Node\+:id (optional)
+
+OR
+
+Mode\+:driving-\/walking
+
+Source\+:id
+
+Destination\+:id
+
+Max\+Walk\+Time\+:int
+
+Avoid\+Nodes\+:id,id,... (optional)
+
+Avoid\+Segments\+:(id,id),(id,id),... (optional) 

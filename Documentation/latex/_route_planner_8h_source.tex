@@ -1,0 +1,35 @@
+\doxysection{Route\+Planner.\+h}
+\hypertarget{_route_planner_8h_source}{}\label{_route_planner_8h_source}\mbox{\hyperlink{_route_planner_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ROUTE\_PLANNER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ROUTE\_PLANNER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Graph.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{pair__hash_8h}{pair\_hash.h}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_route_planner_a9b02299bae415d8739b3e76759732d1c}{RoutePlanner}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_route_planner_a9b02299bae415d8739b3e76759732d1c}{RoutePlanner}}(\mbox{\hyperlink{class_graph}{Graph<int>}}*\ g);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_route_planner_af7ecfa6d1223baf04419f175069b20f6}{calculateBestDrivingRoute}}(\textcolor{keywordtype}{int}\ sourceID,\ \textcolor{keywordtype}{int}\ destinationID,\ std::vector<int>\&\ route);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_route_planner_a90510e9a6f279144b4fbd529d59d9bb6}{calculateAlternativeRoute}}(\textcolor{keywordtype}{int}\ sourceID,\ \textcolor{keywordtype}{int}\ destinationID,\ std::vector<int>\&\ route);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_route_planner_add391213672a2c06f1ef5a3c70552ac6}{calculateRestrictedRoute}}(\textcolor{keywordtype}{int}\ sourceID,\ \textcolor{keywordtype}{int}\ destinationID,\ \textcolor{keyword}{const}\ std::unordered\_set<int>\&\ avoidNodes,\ \textcolor{keyword}{const}\ std::unordered\_set<std::pair<int,\ int>,\ \mbox{\hyperlink{structpair__hash}{pair\_hash<int,\ int>}}>\&\ avoidSegments,\ \textcolor{keywordtype}{int}\ includeNode,\ std::vector<int>\&\ route);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00075\ \ \ \ \ std::pair<int,int>\ \mbox{\hyperlink{class_route_planner_ac6e73990f02580d787a199d3fbfcb8db}{calculateDrivingAndWalkingRoute}}(\textcolor{keywordtype}{int}\ sourceID,\ \textcolor{keywordtype}{int}\ destinationID,\ std::unordered\_set<int>\&\ avoidNodes,\ \textcolor{keyword}{const}\ std::unordered\_set<std::pair<int,\ int>,\ \mbox{\hyperlink{structpair__hash}{pair\_hash<int,\ int>}}>\&\ avoidSegments,}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ std::vector<int>\&\ drivingRoute,\ std::vector<int>\&\ walkingRoute,\ \textcolor{keywordtype}{int}\&\ parkingNode,\ \textcolor{keywordtype}{int}\ maxWalkTime);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{class_graph}{Graph<int>}}*\ graph;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ reconstructRoute(\mbox{\hyperlink{class_vertex}{Vertex<int>}}*\ source,\ \mbox{\hyperlink{class_vertex}{Vertex<int>}}*\ destination,\ std::vector<int>\&\ route);}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ROUTE\_PLANNER\_H}}
+
+\end{DoxyCode}
