@@ -22,6 +22,7 @@
 ///
 ///@details Calculates the shortest driving path from a source node to a destination node
 ///
+///@note Time Complexity: O((V + E) log V)
 template <class T>
 int dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest);
 

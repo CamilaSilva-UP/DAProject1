@@ -25,6 +25,8 @@
 /// @brief Altered implementation of Dijkstra's algorithm that ignores specified nodes and edges
 ///
 /// @details Calculates the shortest driving path from a source node to a destination node, without passing by any of the nodes in the forbidden set or any of the edges in the avoidSegments set
+///
+/// @note Time Complexity: O((V + E) log V)
 template <class T>
 int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments);
 
@@ -40,6 +42,8 @@ int alternative_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const 
 /// @brief Altered implementation of Dijkstra's algorithm that ignores specified nodes and edges
 ///
 /// @details Calculates the shortest walking path from a source node to a destination node, without passing by any of the nodes in the forbidden set or any of the edges in the avoidSegments set
+///
+/// @note Time Complexity: O((V + E) log V)
 template <class T>
 int walking_alt_dijkstra(Graph<T>* G, Vertex<T>* source, Vertex<T>* dest, const std::unordered_set<T>& forbidden, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments);
 

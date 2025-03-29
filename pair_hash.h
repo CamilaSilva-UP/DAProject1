@@ -5,16 +5,16 @@
 #include <functional>
 ///
 ///@file pair_hash.h
-///@brief Header file containing the declaration of a custom hash function
+///@brief Header file containing the declaration of a hash function for pairs
 ///
 
 /// 
 /// @tparam T1 variable type of the first element of the pair
 /// @tparam T2 variable type of the second element of the pair
 /// @param p the pair the hash function will be applied to
-/// @return Custom hash for the given pair
+/// @return The hash for the given pair
 ///
-/// @brief A simple hash function to be used for pairs
+/// @brief A hash function for pairs
 template <typename T1, typename T2>
 struct pair_hash {
     size_t operator()(const std::pair<T1, T2>& p) const {
