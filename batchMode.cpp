@@ -108,7 +108,7 @@ void runBatchMode() {
             pos = line.find(':');
             if (pos + 1 < line.size()) {
                 includeNode = std::stoi(line.substr(pos+1));
-            }
+            } else includeNode = -1;
         } else {
             std::getline(input, line);
             pos = line.find(':');
