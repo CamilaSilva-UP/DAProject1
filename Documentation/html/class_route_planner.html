@@ -301,7 +301,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pair containing the distance of the driving route (first) and the distance of the walking route (second). Returns {-1, 0} if no route is found, and {-2, 0} if the route found exceeds the maximum walking time desired</dd></dl>
 <p>Calculates and saves the best route combining a driving segment and a waling segment, without passing by any of the nodes with an ID in the avoidNodes set or any of the edges in the avoidSegments set</p>
-<dl class="section note"><dt>Note</dt><dd>Time Complexity: O((V + E) log V) </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Time Complexity: O(V (V + E) log V) </dd></dl>
 
 </div>
 </div>

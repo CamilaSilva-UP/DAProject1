@@ -71,7 +71,7 @@ public:
     /// @brief Planner for the best driving and walking route
     /// @details Calculates and saves the best route combining a driving segment and a waling segment, without passing by any of the nodes with an ID in the avoidNodes set or any of the edges in the avoidSegments set
     ///
-    /// @note Time Complexity: O((V + E) log V)
+    /// @note Time Complexity: O(V (V + E) log V)
     std::pair<int,int> calculateDrivingAndWalkingRoute(int sourceID, int destinationID, std::unordered_set<int>& avoidNodes, const std::unordered_set<std::pair<int, int>, pair_hash<int, int>>& avoidSegments,
         std::vector<int>& drivingRoute, std::vector<int>& walkingRoute, int& parkingNode, int maxWalkTime);
 
